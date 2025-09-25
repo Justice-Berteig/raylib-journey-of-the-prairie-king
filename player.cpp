@@ -8,10 +8,10 @@ Player::Player(
   const int16_t y,
   const Texture2D& texture,
   const Texture2D& animSheet,
-  const std::vector<std::unique_ptr<Bullet>>& bullets
+  std::vector<std::unique_ptr<Bullet>>& bullets
 ): Entity(Globals::PLAYER_STARTING_HEALTH, x, y, texture, animSheet)
 {
-  m_bullets = bullets;
+  m_bullets = std::move(bullets);
   setSpeed(1.0f);
 }
 

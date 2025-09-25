@@ -22,7 +22,7 @@ class Player: public Entity {
       const int16_t y,
       const Texture2D& texture,
       const Texture2D& animSheet,
-      const std::vector<std::unique_ptr<Bullet>>& bullets
+      std::vector<std::unique_ptr<Bullet>>& bullets
     );
 
     void tick(
@@ -33,5 +33,5 @@ class Player: public Entity {
     );
 
   private:
-    const std::vector<std::unique_ptr<Bullet>> m_bullets;
+    std::vector<std::unique_ptr<Bullet>> m_bullets;
 };
