@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.0)
 project(
-  raylib_thing
+  raylib_prairie_king
   VERSION 1.0
   LANGUAGES CXX
 )
