@@ -1,5 +1,6 @@
 #include "bullet.h"
 
+#include "globals.h"
 #include "utils.h"
 
 
@@ -11,7 +12,7 @@ Bullet::Bullet(
 ): m_xDir(xDir), m_yDir(yDir) {
   m_x     = x + (xDir * 8);
   m_y     = y + (yDir * 8);
-  m_speed = (xDir != 0 && yDir != 0) ? m_moveSpeed : m_diagonalMoveSpeed;
+  m_speed = (xDir != 0 && yDir != 0) ? m_diagonalMoveSpeed : m_moveSpeed;
 }
 
 
@@ -52,10 +53,10 @@ void Bullet::moveAndCollide(
   m_y += velY;
 
   if(
-    m_x < 0
-    || m_y < 0
-    || m_x > 160
-    || m_y > 160
+    m_x    < 0 - Globals::TILE_WIDTH
+    || m_y < 0 - Globals::TILE_HEIGHT
+    || m_x > (Globals::MAP_WIDTH + 1) * Globals::TILE_WIDTH
+    || m_y > (Globals::MAP_HEIGHT + 1) * Globals::TILE_HEIGHT
   ) {
     isDestroyed = true;
   }

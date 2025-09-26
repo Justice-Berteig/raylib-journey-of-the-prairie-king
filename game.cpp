@@ -179,6 +179,8 @@ void Game::m_tick() {
 
     if(!b->isDestroyed) {
       b->moveAndCollide(m_entities, *m_map, m_indexOfPlayer);
+    }else {
+      m_bullets.erase(m_bullets.begin() + i);
     }
   }
 }

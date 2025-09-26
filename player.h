@@ -33,5 +33,5 @@ class Player: public Entity {
     );
 
   private:
-    std::vector<std::unique_ptr<Bullet>> m_bullets;
+    std::vector<std::unique_ptr<Bullet>>& m_bullets;
 };
