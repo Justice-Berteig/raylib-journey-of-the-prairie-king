@@ -89,12 +89,13 @@ bool Bullet::m_isIntersecting(
   const Map& map,
   const int8_t indexOfPlayer
 ) const {
-  if(map.isCollidingWith(m_getCollisionShape())) return true;
+  const Rectangle selfCollisionShape { m_getCollisionShape() };
+  if(map.isCollidingWith(selfCollisionShape)) return true;
   for(int8_t i = 0; i < entities.size(); ++i) {
     if(i == indexOfPlayer) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    //if(isCollidingWith(e)) return true;
+    if(e->isCollidingWith(selfCollisionShape)) return true;
   }
 
   return false;
