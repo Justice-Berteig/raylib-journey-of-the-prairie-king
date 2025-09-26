@@ -1,3 +1,7 @@
+# Controls:
+WASD to move
+Arrow keys to shoot
+
 # Current features:
 - Map with some random bushes
 - Can move and collide with stuff
