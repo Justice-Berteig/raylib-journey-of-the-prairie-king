@@ -80,9 +80,9 @@ float Entity::getY() const {
 /*
  * Check if this entity is colliding with another entity.
  */
-bool Entity::isCollidingWith(const std::unique_ptr<Entity>& other) const {
-  Rectangle a { getCollisionShape() };
-  Rectangle b { other->getCollisionShape() };
+bool Entity::isCollidingWith(const Rectangle& otherRect) const {
+  const Rectangle a { getCollisionShape() };
+  const Rectangle b { otherRect };
 
   if(a.x == b.x && a.y == b.y) return false;
 
@@ -94,6 +94,20 @@ bool Entity::isCollidingWith(const std::unique_ptr<Entity>& other) const {
 
   return isOverlappingOnX && isOverlappingOnY;
 }
+//bool Entity::isCollidingWith(const std::unique_ptr<Entity>& other) const {
+//  Rectangle a { getCollisionShape() };
+//  Rectangle b { other->getCollisionShape() };
+//
+//  if(a.x == b.x && a.y == b.y) return false;
+//
+//  bool isOverlappingOnX { true };
+//  if(a.x + a.width < b.x || a.x > b.x + b.width) isOverlappingOnX = false;
+//
+//  bool isOverlappingOnY { true };
+//  if(a.y + a.height < b.y || a.y > b.y + b.height) isOverlappingOnY = false;
+//
+//  return isOverlappingOnX && isOverlappingOnY;
+//}
 
 
 void Entity::setSpeed(const float newSpeed) {
@@ -191,12 +205,13 @@ bool Entity::m_isIntersecting(
   const int8_t indexOfPlayer,
   const int8_t indexOfSelf
 ) const {
-  if(map.isCollidingWith(getCollisionShape())) return true;
+  const Rectangle selfCollisionShape { getCollisionShape() };
+  if(map.isCollidingWith(selfCollisionShape)) return true;
   for(int8_t i = 0; i < entities.size(); ++i) {
     if(i == indexOfSelf || i == indexOfPlayer) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    if(isCollidingWith(e)) return true;
+    if(e->isCollidingWith(selfCollisionShape)) return true;
   }
 
   return false;

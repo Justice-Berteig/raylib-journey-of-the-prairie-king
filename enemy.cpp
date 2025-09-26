@@ -42,5 +42,5 @@ void Enemy::tick(
     indexOfSelf
   );
 
-  if(isCollidingWith(player)) player->damage(1);
+  if(player->isCollidingWith(getCollisionShape())) player->damage(1);
 }

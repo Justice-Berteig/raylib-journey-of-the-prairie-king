@@ -31,7 +31,8 @@ class Entity {
     float getX() const;
     float getY() const;
     bool isAlive { true };
-    bool isCollidingWith(const std::unique_ptr<Entity>& other) const;
+    //bool isCollidingWith(const std::unique_ptr<Entity>& other) const;
+    bool isCollidingWith(const Rectangle& otherRect) const;
     void setSpeed(const float newSpeed);
 
     virtual void tick(
