@@ -1,5 +1,7 @@
 #include "entity.h"
 
+#include <iostream>
+
 #include "utils.h"
 
 
@@ -133,10 +135,11 @@ void Entity::m_moveAndCollide(
   int16_t initialY { m_y };
   float   speed    {
     (xDir != 0 && yDir != 0)
-    ? m_moveSpeed
-    : m_diagonalMoveSpeed
+    ? m_diagonalMoveSpeed
+    : m_moveSpeed
   };
-
+ 
+  // Get the amount the entity is supposed to move
   m_excessMovement += speed;
 
   int8_t amountToMove { 0 };
