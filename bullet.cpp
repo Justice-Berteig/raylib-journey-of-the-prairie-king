@@ -67,6 +67,7 @@ void Bullet::moveAndCollide(
   }
 }
 
+
 /*
  * Get the rectangle used to check for collisions.
  */
@@ -78,6 +79,7 @@ Rectangle Bullet::m_getCollisionShape() const {
     4,
   };
 }
+
 
 /*
  * Check if this bullet is colliding with an entity or the map.

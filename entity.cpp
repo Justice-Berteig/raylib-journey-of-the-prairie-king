@@ -94,20 +94,6 @@ bool Entity::isCollidingWith(const Rectangle& otherRect) const {
 
   return isOverlappingOnX && isOverlappingOnY;
 }
-//bool Entity::isCollidingWith(const std::unique_ptr<Entity>& other) const {
-//  Rectangle a { getCollisionShape() };
-//  Rectangle b { other->getCollisionShape() };
-//
-//  if(a.x == b.x && a.y == b.y) return false;
-//
-//  bool isOverlappingOnX { true };
-//  if(a.x + a.width < b.x || a.x > b.x + b.width) isOverlappingOnX = false;
-//
-//  bool isOverlappingOnY { true };
-//  if(a.y + a.height < b.y || a.y > b.y + b.height) isOverlappingOnY = false;
-//
-//  return isOverlappingOnX && isOverlappingOnY;
-//}
 
 
 void Entity::setSpeed(const float newSpeed) {
