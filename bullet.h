@@ -16,10 +16,10 @@
 class Bullet {
   public:
     Bullet(
-      const int16_t    x,
-      const int16_t    y,
-      const int8_t     xDir,
-      const int8_t     yDir
+      const int16_t x,
+      const int16_t y,
+      const int8_t  xDir,
+      const int8_t  yDir
     );
 
     void draw(const Texture2D& sprite);
@@ -41,4 +41,11 @@ class Bullet {
     int8_t      m_yDir;
     float       m_excessMovement;
     float       m_speed;
+
+    Rectangle m_getCollisionShape() const;
+    bool      m_isIntersecting(
+      const std::vector<std::unique_ptr<Entity>>& entities,
+      const Map& map,
+      const int8_t indexOfPlayer
+    ) const;
 };

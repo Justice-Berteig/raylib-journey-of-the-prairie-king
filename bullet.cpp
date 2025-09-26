@@ -52,6 +52,11 @@ void Bullet::moveAndCollide(
   m_x += velX;
   m_y += velY;
 
+  if(m_isIntersecting(entities, map, indexOfPlayer)) {
+    isDestroyed = true;
+  }
+
+  // Destroy the bullet if it's out of the map bounds.
   if(
     m_x    < 0 - Globals::TILE_WIDTH
     || m_y < 0 - Globals::TILE_HEIGHT
@@ -60,4 +65,35 @@ void Bullet::moveAndCollide(
   ) {
     isDestroyed = true;
   }
+}
+
+/*
+ * Get the rectangle used to check for collisions.
+ */
+Rectangle Bullet::m_getCollisionShape() const {
+  return {
+    static_cast<float>(m_x + 6),
+    static_cast<float>(m_y + 6),
+    4,
+    4,
+  };
+}
+
+/*
+ * Check if this bullet is colliding with an entity or the map.
+ */
+bool Bullet::m_isIntersecting(
+  const std::vector<std::unique_ptr<Entity>>& entities,
+  const Map& map,
+  const int8_t indexOfPlayer
+) const {
+  if(map.isCollidingWith(m_getCollisionShape())) return true;
+  for(int8_t i = 0; i < entities.size(); ++i) {
+    if(i == indexOfPlayer) continue;
+
+    const std::unique_ptr<Entity>& e { entities[i] };
+    //if(isCollidingWith(e)) return true;
+  }
+
+  return false;
 }

@@ -200,4 +200,4 @@ bool Entity::m_isIntersecting(
   }
 
   return false;
-}    
+}
