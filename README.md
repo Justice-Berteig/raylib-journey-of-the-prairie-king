@@ -1,6 +1,12 @@
-# How to build:
+# Current features:
+- Map with some random bushes
+- Can move and collide with stuff
+- Enemies that follow the player
+- Game resets when you die
+
+# Build instructions:
 1. Clone the repository and `cd` into the folder
 2. Create `build/` directory and `cd` into that
-3. Execute `cmake ../` to initialize the CMake project
-4. Execute `cmake --build .` to build the project
+3. Initialize the CMake project using `cmake ../`
+4. Build the project with `cmake --build .`
 5. Run `raylib_prairie_king`
