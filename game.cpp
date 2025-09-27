@@ -171,6 +171,9 @@ void Game::m_tick() {
       e->tick(m_entities, *m_map, m_indexOfPlayer, indexOfSelf);
     }else if(indexOfSelf == m_indexOfPlayer) {
       m_restart();
+    }else {
+      m_entities.erase(m_entities.begin() + indexOfSelf);
+      if(indexOfSelf < m_indexOfPlayer) m_indexOfPlayer--;
     }
   }
 

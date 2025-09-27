@@ -95,7 +95,10 @@ bool Bullet::m_isIntersecting(
     if(i == indexOfPlayer) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    if(e->isCollidingWith(selfCollisionShape)) return true;
+    if(e->isCollidingWith(selfCollisionShape)) {
+      e->damage(1);
+      return true;
+    }
   }
 
   return false;
