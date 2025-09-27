@@ -1,7 +1,5 @@
 #include "entity.h"
 
-#include <iostream>
-
 #include "utils.h"
 
 
@@ -61,8 +59,8 @@ Rectangle Entity::getCollisionShape() const {
   return {
     getX()   + m_leftMargin,
     getY()   + m_topMargin,
-    m_width  - (float)(m_leftMargin + m_rightMargin),
-    m_height - (float)(m_topMargin + m_bottomMargin)
+    m_width  - static_cast<float>(m_leftMargin + m_rightMargin),
+    m_height - static_cast<float>(m_topMargin + m_bottomMargin)
   };
 }
 
@@ -84,13 +82,11 @@ bool Entity::isCollidingWith(const Rectangle& otherRect) const {
   const Rectangle a { getCollisionShape() };
   const Rectangle b { otherRect };
 
-  if(a.x == b.x && a.y == b.y) return false;
-
   bool isOverlappingOnX { true };
-  if(a.x + a.width < b.x || a.x > b.x + b.width) isOverlappingOnX = false;
+  if(a.x + a.width - 1 < b.x || a.x > b.x + b.width - 1) isOverlappingOnX = false;
 
   bool isOverlappingOnY { true };
-  if(a.y + a.height < b.y || a.y > b.y + b.height) isOverlappingOnY = false;
+  if(a.y + a.height - 1 < b.y || a.y > b.y + b.height - 1) isOverlappingOnY = false;
 
   return isOverlappingOnX && isOverlappingOnY;
 }

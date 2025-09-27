@@ -39,12 +39,12 @@ bool Map::isCollidingWith(const Rectangle& rect) const {
   };
   int8_t xMax {
     static_cast<int8_t>(
-      (rect.x + rect.width) / Globals::TILE_WIDTH
+      (rect.x + rect.width - 1) / Globals::TILE_WIDTH
     )
   };
   int8_t yMax {
     static_cast<int8_t>(
-      (rect.y + rect.height) / Globals::TILE_HEIGHT
+      (rect.y + rect.height - 1) / Globals::TILE_HEIGHT
     )
   };
 
