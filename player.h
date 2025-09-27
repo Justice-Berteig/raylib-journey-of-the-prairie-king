@@ -33,5 +33,8 @@ class Player: public Entity {
     );
 
   private:
+    static constexpr int8_t s_max_shooting_cooldown_frames { 28 };
+    
+    int8_t                                m_shooting_cooldown_frames;
     std::vector<std::unique_ptr<Bullet>>& m_bullets;
 };

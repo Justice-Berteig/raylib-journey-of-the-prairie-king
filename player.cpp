@@ -10,7 +10,8 @@ Player::Player(
   const Texture2D& animSheet,
   std::vector<std::unique_ptr<Bullet>>& bullets
 ): Entity(Globals::PLAYER_STARTING_HEALTH, x, y, texture, animSheet),
-   m_bullets(bullets)
+   m_bullets(bullets),
+   m_shooting_cooldown_frames(0)
 {
   setSpeed(1.0f);
 }
@@ -41,18 +42,26 @@ void Player::tick(
     indexOfSelf
   );
 
+  if(m_shooting_cooldown_frames > 0) {
+    --m_shooting_cooldown_frames;
+  }
+
   int8_t xShootingDir { 0 };
   int8_t yShootingDir { 0 };
   if(IsKeyDown(KEY_LEFT))  xShootingDir -= 1;
   if(IsKeyDown(KEY_RIGHT)) xShootingDir += 1;
   if(IsKeyDown(KEY_UP))    yShootingDir -= 1;
   if(IsKeyDown(KEY_DOWN))  yShootingDir += 1;
-  if(xShootingDir != 0 || yShootingDir != 0) {
+  if(
+    m_shooting_cooldown_frames == 0
+    && (xShootingDir != 0 || yShootingDir != 0)
+  ) {
     m_bullets.push_back(std::make_unique<Bullet>(
       m_x,
       m_y,
       xShootingDir,
       yShootingDir
     ));
+    m_shooting_cooldown_frames = s_max_shooting_cooldown_frames;
   }
 }
