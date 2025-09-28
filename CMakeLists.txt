@@ -50,6 +50,8 @@ add_executable(
   enemy.h
   bullet.cpp
   bullet.h
+  entity_manager.cpp
+  entity_manager.h
 )
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})

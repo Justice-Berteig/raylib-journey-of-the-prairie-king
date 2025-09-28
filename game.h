@@ -9,6 +9,7 @@
 #include "asset_manager.h"
 #include "bullet.h"
 #include "entity.h"
+#include "entity_manager.h"
 #include "globals.h"
 #include "map.h"
 
@@ -31,11 +32,10 @@ class Game {
     // Define amount to scale up the render texture
     static constexpr int8_t  s_RENDER_TEXTURE_SCALE { 4 };
 
-    int8_t                                m_indexOfPlayer;
     RenderTexture2D                       m_target;
     AssetManager                          m_assman;   // Hehe
+    EntityManager                         m_entityManager;
     std::vector<std::unique_ptr<Bullet>>  m_bullets;
-    std::vector<std::unique_ptr<Entity>>  m_entities;
     std::unique_ptr<Map>                  m_map;
 
     void m_cleanup();
@@ -43,5 +43,4 @@ class Game {
     void m_init();
     void m_restart();
     void m_tick();
-    void m_ySortEntities();
 };
