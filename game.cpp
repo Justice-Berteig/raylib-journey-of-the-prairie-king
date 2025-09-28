@@ -168,4 +168,8 @@ void Game::m_tick() {
       m_bullets.erase(m_bullets.begin() + i);
     }
   }
+
+  if(!m_entityManager.isPlayerAlive) {
+    m_restart();
+  }
 }

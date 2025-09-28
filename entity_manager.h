@@ -17,7 +17,6 @@ class EntityManager {
     void                                        cleanup();
     void                                        draw();
     const std::vector<std::unique_ptr<Entity>>& getEntities() const;
-    void                                        reset();
     void                                        tick(const std::unique_ptr<Map>& map);
 
   private:

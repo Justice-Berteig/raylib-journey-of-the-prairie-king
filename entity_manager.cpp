@@ -48,15 +48,6 @@ const std::vector<std::unique_ptr<Entity>>& EntityManager::getEntities() const {
 
 
 /*
- * Reset the Entity manager by removing all existing entities
- * then adding back a new player.
- */
-void EntityManager::reset() {
-  cleanup();
-}
-
-
-/*
  * Run the tick() method for every entity in the manager.
  */
 void EntityManager::tick(const std::unique_ptr<Map>& map) {
