@@ -13,7 +13,10 @@
 /*
  * Constructor initializes the window + any needed objects
  */
-Game::Game() {
+Game::Game()
+: m_assetManager(std::make_shared<AssetManager>()),
+  m_entityManager(m_assetManager)
+{
   std::cout << "[Game]: created.\n";
   
   InitWindow(
@@ -68,7 +71,7 @@ void Game::run() {
 void Game::m_cleanup() {
   m_bullets.clear();
   m_entityManager.cleanup();
-  m_assman.clearTextures();
+  m_assetManager->clearTextures();
 }
 
 
@@ -84,7 +87,7 @@ void Game::m_draw() {
     m_entityManager.draw();
 
     for(std::unique_ptr<Bullet>& b : m_bullets) {
-      b->draw(m_assman.requestTexture(Assets::BULLET));
+      b->draw(m_assetManager->requestTexture(Assets::BULLET));
     }
   EndTextureMode();
   // Scale up and draw the texture
@@ -117,28 +120,16 @@ void Game::m_draw() {
  * Initialize the game.
  */
 void Game::m_init() {
-  m_map.reset(new Map(m_assman));
+  m_map.reset(new Map(m_assetManager));
 
   m_entityManager.addEntity(std::make_unique<Player>(
     64,
     64,
-    m_assman.requestTexture(Assets::PLAYER_IDLE),
-    m_assman.requestTexture(Assets::PLAYER_WALK),
+    m_assetManager->requestTexture(Assets::PLAYER_IDLE),
+    m_assetManager->requestTexture(Assets::PLAYER_WALK),
     m_bullets
   ));
   m_entityManager.isPlayerAlive = true;
-  m_entityManager.addEntity(std::make_unique<Enemy>(
-    16,
-    80,
-    m_assman.requestTexture(Assets::ZOMBIE_IDLE),
-    m_assman.requestTexture(Assets::ZOMBIE_WALK)
-  ));
-  m_entityManager.addEntity(std::make_unique<Enemy>(
-    96,
-    16,
-    m_assman.requestTexture(Assets::ZOMBIE_IDLE),
-    m_assman.requestTexture(Assets::ZOMBIE_WALK)
-  ));
 }
 
 

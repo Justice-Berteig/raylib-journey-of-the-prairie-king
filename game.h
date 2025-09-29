@@ -32,11 +32,11 @@ class Game {
     // Define amount to scale up the render texture
     static constexpr int8_t  s_RENDER_TEXTURE_SCALE { 4 };
 
-    RenderTexture2D                       m_target;
-    AssetManager                          m_assman;   // Hehe
-    EntityManager                         m_entityManager;
+    std::shared_ptr<AssetManager>         m_assetManager;
     std::vector<std::unique_ptr<Bullet>>  m_bullets;
+    EntityManager                         m_entityManager;
     std::unique_ptr<Map>                  m_map;
+    RenderTexture2D                       m_target;
 
     void m_cleanup();
     void m_draw();

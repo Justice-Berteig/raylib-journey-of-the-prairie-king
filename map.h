@@ -6,6 +6,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 #include "asset_manager.h"
 #include "globals.h"
@@ -21,7 +22,7 @@ enum class TileType {
 
 class Map {
   public:
-    Map(AssetManager& assman);
+    Map(std::shared_ptr<AssetManager>& assetManager);
 
     bool isCollidingWith(const Rectangle& rect) const;
     void draw() const;

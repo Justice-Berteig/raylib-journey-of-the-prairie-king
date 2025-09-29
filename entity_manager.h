@@ -2,12 +2,15 @@
 #include <memory>
 #include <vector>
 
+#include "asset_manager.h"
 #include "entity.h"
 #include "map.h"
 
 class EntityManager {
   public:
-    EntityManager();
+    EntityManager(
+      const std::shared_ptr<AssetManager>& assetManager
+    );
     ~EntityManager();
 
     int8_t indexOfPlayer;
@@ -20,7 +23,11 @@ class EntityManager {
     void                                        tick(const std::unique_ptr<Map>& map);
 
   private:
+    static constexpr int8_t s_maxEnemyRespawnCooldownFrames { 90 };
+
+    std::shared_ptr<AssetManager>        m_assetManager;
     std::vector<std::unique_ptr<Entity>> m_entities;
+    int8_t                               m_enemyRespawnCooldownFrames;
 
     void m_removeEntityByIndex(int8_t index);
     void m_ySortEntities();

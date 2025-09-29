@@ -2,8 +2,13 @@
 
 #include <iostream>
 
+#include "assets.h"
+#include "enemy.h"
 
-EntityManager::EntityManager(): indexOfPlayer(0) {
+
+EntityManager::EntityManager(
+  const std::shared_ptr<AssetManager>& assetManager
+): indexOfPlayer(0), m_assetManager(std::move(assetManager)) {
   std::cout << "[EntityManager]: Created.\n";
 }
 
@@ -51,6 +56,19 @@ const std::vector<std::unique_ptr<Entity>>& EntityManager::getEntities() const {
  * Run the tick() method for every entity in the manager.
  */
 void EntityManager::tick(const std::unique_ptr<Map>& map) {
+  if(m_enemyRespawnCooldownFrames > 0) {
+    --m_enemyRespawnCooldownFrames;
+  }else {
+    addEntity(std::make_unique<Enemy>(
+      16,
+      64,
+      m_assetManager->requestTexture(Assets::ZOMBIE_IDLE),
+      m_assetManager->requestTexture(Assets::ZOMBIE_WALK)
+    ));
+    m_enemyRespawnCooldownFrames = 52;
+  }
+
+
   for(int8_t i = 0; i < m_entities.size(); ++i) {
     const std::unique_ptr<Entity>& e { m_entities[i] };
     const int8_t indexOfSelf = i;
