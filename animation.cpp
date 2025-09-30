@@ -9,13 +9,22 @@
 Animation::Animation(Texture2D spriteSheet)
 : m_spriteSheet(spriteSheet)
 {
-  m_frameWidth = Globals::TILE_WIDTH;
+  m_frameWidth  = Globals::TILE_WIDTH;
   m_frameHeight = Globals::TILE_HEIGHT;
-  m_cols = m_spriteSheet.width / Globals::TILE_WIDTH;
-  m_rows = m_spriteSheet.height / Globals::TILE_HEIGHT;
+  m_cols        = m_spriteSheet.width / Globals::TILE_WIDTH;
+  m_rows        = m_spriteSheet.height / Globals::TILE_HEIGHT;
   m_totalFrames = m_cols * m_rows;
 
-  m_currentFrame = 0;
+  m_currentFrame    = 0;
+  m_lastFrameTimeMS = getCurrentTimeMS();
+}
+
+
+/*
+ * Reset the animation so it can start again.
+ */
+void Animation::restart() {
+  m_currentFrame    = 0;
   m_lastFrameTimeMS = getCurrentTimeMS();
 }
 

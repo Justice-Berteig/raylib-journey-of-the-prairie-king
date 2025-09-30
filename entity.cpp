@@ -125,6 +125,7 @@ void Entity::m_moveAndCollide(
   }
 
   // If the entity is actually moving
+  if(!m_isMoving) m_walkAnim->restart();
   m_isMoving = true;
 
   int16_t initialX { m_x };

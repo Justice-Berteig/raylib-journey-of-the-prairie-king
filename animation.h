@@ -14,6 +14,7 @@ class Animation {
     Animation(Texture2D spriteSheet);
 
     void drawCurrentFrameAt(float x, float y);
+    void restart();
 
   private:
     static constexpr uint8_t s_targetFrameRate     = 12;
