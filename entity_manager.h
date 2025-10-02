@@ -16,8 +16,7 @@
 class EntityManager {
   public:
     EntityManager(
-      const std::shared_ptr<AssetManager>& assetManager,
-      std::vector<Vector2>                 validEnemySpawnPositions
+      const std::shared_ptr<AssetManager>& assetManager
     );
     ~EntityManager();
 

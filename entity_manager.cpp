@@ -5,15 +5,15 @@
 #include <iostream>
 
 #include "assets.h"
+#include "globals.h"
 #include "enemy.h"
 
 
 EntityManager::EntityManager(
-  const std::shared_ptr<AssetManager>& assetManager,
-  std::vector<Vector2>                 validEnemySpawnPositions
+  const std::shared_ptr<AssetManager>& assetManager
 ): indexOfPlayer(0),
    m_assetManager(std::move(assetManager)),
-   m_validEnemySpawnPositions(validEnemySpawnPositions)
+   m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
 {
   srand(time(0));
   std::cout << "[EntityManager]: Created.\n";
