@@ -15,7 +15,7 @@
  */
 Game::Game()
 : m_assetManager(std::make_shared<AssetManager>()),
-  m_entityManager(m_assetManager)
+  m_entityManager(m_assetManager, m_map->getValidEnemySpawnPositions())
 {
   std::cout << "[Game]: created.\n";
   

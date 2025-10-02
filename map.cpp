@@ -23,6 +23,46 @@ Map::Map(std::shared_ptr<AssetManager>& assetManager) {
 
 
 /*
+ * Draw the map.
+ */
+void Map::draw() const {
+  const Texture2D *selectedTexture { &m_floorTexture };
+
+  // Loop for each tile in the map
+  for(int8_t x = 0; x < Globals::MAP_WIDTH; ++x) {
+    for(int8_t y = 0; y < Globals::MAP_HEIGHT; ++y) {
+
+      // Get screen position where tile should be drawn
+      int16_t xPos {
+        static_cast<int16_t>(
+          x * Globals::TILE_WIDTH
+        )
+      };
+      int16_t yPos {
+        static_cast<int16_t>(
+          y * Globals::TILE_HEIGHT
+        )
+      };
+
+      if(m_tiles[x][y] == TileType::WALL) {
+        selectedTexture = &m_wallTexture;
+      }else if(m_tiles[x][y] == TileType::OBSTACLE) {
+        selectedTexture = &m_obstacleTexture;
+      }else {
+        selectedTexture = &m_floorTexture;
+      }
+
+      drawTextureAt(
+        *selectedTexture,
+        xPos,
+        yPos
+      );
+    }
+  }
+}
+
+
+/*
  * Check if a given rectangle is colliding with any solid part of the map.
  */
 bool Map::isCollidingWith(const Rectangle& rect) const {
@@ -63,46 +103,6 @@ bool Map::isCollidingWith(const Rectangle& rect) const {
     }
   }
   return false;
-}
-
-
-/*
- * Draw the map.
- */
-void Map::draw() const {
-  const Texture2D *selectedTexture { &m_floorTexture };
-
-  // Loop for each tile in the map
-  for(int8_t x = 0; x < Globals::MAP_WIDTH; ++x) {
-    for(int8_t y = 0; y < Globals::MAP_HEIGHT; ++y) {
-
-      // Get screen position where tile should be drawn
-      int16_t xPos {
-        static_cast<int16_t>(
-          x * Globals::TILE_WIDTH
-        )
-      };
-      int16_t yPos {
-        static_cast<int16_t>(
-          y * Globals::TILE_HEIGHT
-        )
-      };
-
-      if(m_tiles[x][y] == TileType::WALL) {
-        selectedTexture = &m_wallTexture;
-      }else if(m_tiles[x][y] == TileType::OBSTACLE) {
-        selectedTexture = &m_obstacleTexture;
-      }else {
-        selectedTexture = &m_floorTexture;
-      }
-
-      drawTextureAt(
-        *selectedTexture,
-        xPos,
-        yPos
-      );
-    }
-  }
 }
 
 

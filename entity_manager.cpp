@@ -1,5 +1,7 @@
 #include "entity_manager.h"
 
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 #include "assets.h"
@@ -7,8 +9,13 @@
 
 
 EntityManager::EntityManager(
-  const std::shared_ptr<AssetManager>& assetManager
-): indexOfPlayer(0), m_assetManager(std::move(assetManager)) {
+  const std::shared_ptr<AssetManager>& assetManager,
+  std::vector<Vector2>                 validEnemySpawnPositions
+): indexOfPlayer(0),
+   m_assetManager(std::move(assetManager)),
+   m_validEnemySpawnPositions(validEnemySpawnPositions)
+{
+  srand(time(0));
   std::cout << "[EntityManager]: Created.\n";
 }
 
@@ -59,13 +66,16 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
   if(m_enemyRespawnCooldownFrames > 0) {
     --m_enemyRespawnCooldownFrames;
   }else {
+    // Spawn an enemy
+    // Choose a tile to spawn the enemy on
+    const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
     addEntity(std::make_unique<Enemy>(
-      16,
-      64,
+      spawnPosition.x,
+      spawnPosition.y,
       m_assetManager->requestTexture(Assets::ZOMBIE_IDLE),
       m_assetManager->requestTexture(Assets::ZOMBIE_WALK)
     ));
-    m_enemyRespawnCooldownFrames = 52;
+    m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
   }
 
 
