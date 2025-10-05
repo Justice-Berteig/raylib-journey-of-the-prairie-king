@@ -123,8 +123,8 @@ void Game::m_init() {
   m_map.reset(new Map(m_assetManager));
 
   m_entityManager.addEntity(std::make_unique<Player>(
-    64,
-    64,
+    (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
+    (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT,
     m_assetManager->requestTexture(Assets::PLAYER_IDLE),
     m_assetManager->requestTexture(Assets::PLAYER_WALK),
     m_bullets

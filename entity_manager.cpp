@@ -78,7 +78,6 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
     m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
   }
 
-
   for(int8_t i = 0; i < m_entities.size(); ++i) {
     const std::unique_ptr<Entity>& e { m_entities[i] };
     const int8_t indexOfSelf = i;

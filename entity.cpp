@@ -127,6 +127,8 @@ void Entity::m_moveAndCollide(
   // If the entity is actually moving
   if(!m_isMoving) m_walkAnim->restart();
   m_isMoving = true;
+ 
+  if(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
 
   int16_t initialX { m_x };
   int16_t initialY { m_y };

@@ -126,12 +126,19 @@ void Map::m_generate() {
         // If this tile is right on the edge of the map
         m_tiles[x][y] = TileType::WALL;
       } else if(
-        x == 1
+           x == 1
         || y == 1
         || x == (Globals::MAP_WIDTH - 2)
         || y == (Globals::MAP_HEIGHT - 2)
+	|| (
+	     x >= (Globals::MAP_WIDTH / 2) - 1
+	  && x <= (Globals::MAP_WIDTH / 2) + 1
+	  && y >= (Globals::MAP_HEIGHT / 2) - 1
+	  && y <= (Globals::MAP_HEIGHT / 2) + 1
+	)
       ) {
         // If this tile is just before the edge of the map
+	// or if the tile is in the center of the map
         m_tiles[x][y] = TileType::FLOOR;
       }else {
         // If this tile is somewhere in the middle of the map
