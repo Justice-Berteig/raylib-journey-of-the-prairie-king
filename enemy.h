@@ -23,7 +23,8 @@ class Enemy: public Entity {
       const Texture2D& animSheet
     );
 
-    void tick(
+    EntityType getType() const;
+    void       tick(
       const std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
       const int8_t indexOfPlayer,

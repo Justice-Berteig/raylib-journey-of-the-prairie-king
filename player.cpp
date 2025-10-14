@@ -17,6 +17,11 @@ Player::Player(
 }
 
 
+EntityType Player::getType() const {
+  return EntityType::PLAYER;
+}
+
+
 /*
  * Move based on player input.
  */

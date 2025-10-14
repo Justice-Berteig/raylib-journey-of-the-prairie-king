@@ -13,6 +13,11 @@ Enemy::Enemy(
 }
 
 
+EntityType Enemy::getType() const {
+  return EntityType::ENEMY;
+}
+
+
 /*
  * Move towards player. Damage player if colliding with them.
  */

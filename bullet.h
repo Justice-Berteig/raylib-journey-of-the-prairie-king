@@ -13,6 +13,7 @@
 #include "entity.h"
 #include "map.h"
 
+
 class Bullet {
   public:
     Bullet(

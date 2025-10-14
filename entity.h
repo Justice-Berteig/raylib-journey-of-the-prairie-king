@@ -15,6 +15,13 @@
 #include "map.h"
 
 
+enum class EntityType {
+  PLAYER,
+  ENEMY,
+  BULLET
+};
+
+
 class Entity {
   public:
     Entity(
@@ -25,16 +32,17 @@ class Entity {
       const Texture2D& animSheet
     );
 
-    void damage(int8_t amount);
-    void draw() const;
+    void      damage(int8_t amount);
+    void      draw() const;
     Rectangle getCollisionShape() const;
-    float getX() const;
-    float getY() const;
-    bool isAlive { true };
-    bool isCollidingWith(const Rectangle& otherRect) const;
-    void setSpeed(const float newSpeed);
+    float     getX() const;
+    float     getY() const;
+    bool      isAlive { true };
+    bool      isCollidingWith(const Rectangle& otherRect) const;
+    void      setSpeed(const float newSpeed);
 
-    virtual void tick(
+    virtual EntityType getType() const = 0;
+    virtual void       tick(
       const std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
       const int8_t indexOfPlayer,
@@ -51,8 +59,8 @@ class Entity {
       const int8_t indexOfSelf
     );
 
-    int16_t                    m_x;
-    int16_t                    m_y;
+    int16_t m_x;
+    int16_t m_y;
 
   private:
     static constexpr int8_t m_topMargin    { 6 };
