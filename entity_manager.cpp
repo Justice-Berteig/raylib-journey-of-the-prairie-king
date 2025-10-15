@@ -5,8 +5,9 @@
 #include <iostream>
 
 #include "assets.h"
-#include "globals.h"
 #include "enemy.h"
+#include "globals.h"
+#include "player.h"
 
 
 EntityManager::EntityManager(
@@ -34,6 +35,7 @@ EntityManager::~EntityManager() {
  * Unload all remaining entities.
  */
 void EntityManager::cleanup() {
+  m_bullets.clear();
   m_entities.clear();
   indexOfPlayer = 0;
 }
@@ -45,6 +47,9 @@ void EntityManager::cleanup() {
 void EntityManager::draw() {
   for(std::unique_ptr<Entity>& e : m_entities) {
     e->draw();
+  }
+  for(std::unique_ptr<Bullet>& b : m_bullets) {
+    b->draw(m_assetManager->requestTexture(Assets::BULLET));
   }
 }
 
@@ -60,23 +65,25 @@ const std::vector<std::unique_ptr<Entity>>& EntityManager::getEntities() const {
 
 
 /*
+ * Initialize EntityManager with a player.
+ */
+void EntityManager::init() {
+  addEntity(std::make_unique<Player>(
+    (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
+    (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT,
+    m_assetManager->requestTexture(Assets::PLAYER_IDLE),
+    m_assetManager->requestTexture(Assets::PLAYER_WALK),
+    m_bullets
+  ));
+  isPlayerAlive = true;
+}
+
+
+/*
  * Run the tick() method for every entity in the manager.
  */
 void EntityManager::tick(const std::unique_ptr<Map>& map) {
-  if(m_enemyRespawnCooldownFrames > 0) {
-    --m_enemyRespawnCooldownFrames;
-  }else {
-    // Spawn an enemy
-    // Choose a tile to spawn the enemy on
-    const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
-    addEntity(std::make_unique<Enemy>(
-      spawnPosition.x,
-      spawnPosition.y,
-      m_assetManager->requestTexture(Assets::ZOMBIE_IDLE),
-      m_assetManager->requestTexture(Assets::ZOMBIE_WALK)
-    ));
-    m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
-  }
+  m_handleEnemyRespawning();
 
   for(int8_t i = 0; i < m_entities.size(); ++i) {
     const std::unique_ptr<Entity>& e { m_entities[i] };
@@ -91,6 +98,16 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
     }
   }
 
+  for(int8_t i = 0; i < m_bullets.size(); ++i) {
+    const std::unique_ptr<Bullet>& b { m_bullets[i] };
+
+    if(!b->isDestroyed) {
+      b->moveAndCollide(m_entities, *map, indexOfPlayer);
+    }else {
+      m_bullets.erase(m_bullets.begin() + i);
+    }
+  }
+
   m_ySortEntities();
 }
 
@@ -102,6 +119,27 @@ void EntityManager::addEntity(std::unique_ptr<Entity> newEntity) {
   m_entities.push_back(std::move(newEntity));
 
   std::cout << "[EntityManager]: Added new entity." << '\n';
+}
+
+
+/*
+ * Decrement enemy respawn cooldown and spawn a new enemy if the cooldown is finished.
+ */
+void EntityManager::m_handleEnemyRespawning() {
+  if(m_enemyRespawnCooldownFrames > 0) {
+    --m_enemyRespawnCooldownFrames;
+  }else {
+    // Spawn an enemy
+    // Choose a tile to spawn the enemy on
+    const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
+    addEntity(std::make_unique<Enemy>(
+      spawnPosition.x,
+      spawnPosition.y,
+      m_assetManager->requestTexture(Assets::ZOMBIE_IDLE),
+      m_assetManager->requestTexture(Assets::ZOMBIE_WALK)
+    ));
+    m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
+  }
 }
 
 

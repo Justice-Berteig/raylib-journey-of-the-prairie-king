@@ -3,10 +3,6 @@
 #include <algorithm>
 #include <iostream>
 
-#include "animation.h"
-#include "assets.h"
-#include "enemy.h"
-#include "player.h"
 #include "utils.h"
 
 
@@ -69,7 +65,6 @@ void Game::run() {
  * Unload everything.
  */
 void Game::m_cleanup() {
-  m_bullets.clear();
   m_entityManager.cleanup();
   m_assetManager->clearTextures();
 }
@@ -85,10 +80,6 @@ void Game::m_draw() {
 
     m_map->draw();
     m_entityManager.draw();
-
-    for(std::unique_ptr<Bullet>& b : m_bullets) {
-      b->draw(m_assetManager->requestTexture(Assets::BULLET));
-    }
   EndTextureMode();
   // Scale up and draw the texture
   BeginDrawing();
@@ -120,16 +111,8 @@ void Game::m_draw() {
  * Initialize the game.
  */
 void Game::m_init() {
+  m_entityManager.init();
   m_map.reset(new Map(m_assetManager));
-
-  m_entityManager.addEntity(std::make_unique<Player>(
-    (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
-    (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT,
-    m_assetManager->requestTexture(Assets::PLAYER_IDLE),
-    m_assetManager->requestTexture(Assets::PLAYER_WALK),
-    m_bullets
-  ));
-  m_entityManager.isPlayerAlive = true;
 }
 
 
@@ -149,16 +132,6 @@ void Game::m_restart() {
  */
 void Game::m_tick() {
   m_entityManager.tick(m_map);
-
-  for(int8_t i = 0; i < m_bullets.size(); ++i) {
-    const std::unique_ptr<Bullet>& b { m_bullets[i] };
-
-    if(!b->isDestroyed) {
-      b->moveAndCollide(m_entityManager.getEntities(), *m_map, m_entityManager.indexOfPlayer);
-    }else {
-      m_bullets.erase(m_bullets.begin() + i);
-    }
-  }
 
   if(!m_entityManager.isPlayerAlive) {
     m_restart();
