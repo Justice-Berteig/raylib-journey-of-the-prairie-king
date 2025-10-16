@@ -55,16 +55,6 @@ void EntityManager::draw() {
 
 
 /*
- * Return a const reference to the vector of entities so that other
- * classes can get information about the entities without modifying them.
- */
-const std::vector<std::unique_ptr<Entity>>& EntityManager::getEntities() const {
-  const std::vector<std::unique_ptr<Entity>>& constEntities { m_entities };
-  return constEntities;
-}
-
-
-/*
  * Initialize EntityManager with a player.
  */
 void EntityManager::init() {

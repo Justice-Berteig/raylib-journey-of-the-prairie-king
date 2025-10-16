@@ -25,12 +25,11 @@ class EntityManager {
     int8_t indexOfPlayer;
     bool   isPlayerAlive { false };
 
-    void                                        addEntity(std::unique_ptr<Entity> newEntity);
-    void                                        cleanup();
-    void                                        draw();
-    const std::vector<std::unique_ptr<Entity>>& getEntities() const;
-    void                                        init();
-    void                                        tick(const std::unique_ptr<Map>& map);
+    void addEntity(std::unique_ptr<Entity> newEntity);
+    void cleanup();
+    void draw();
+    void init();
+    void tick(const std::unique_ptr<Map>& map);
 
   private:
     static constexpr int8_t s_maxEnemyRespawnCooldownFrames { 90 };
