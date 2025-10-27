@@ -20,8 +20,6 @@ class Player: public Entity {
     Player(
       const int16_t x,
       const int16_t y,
-      const Texture2D& texture,
-      const Texture2D& animSheet,
       std::vector<std::unique_ptr<Bullet>>& bullets
     );
 

@@ -12,6 +12,7 @@
 #include "raylib.h"
 
 #include "animation.h"
+#include "asset_manager.h"
 #include "map.h"
 
 
@@ -24,16 +25,8 @@ enum class EntityType {
 
 class Entity {
   public:
-    Entity(
-      const int8_t     startingHealth,
-      const int16_t    x,
-      const int16_t    y,
-      const Texture2D& texture,
-      const Texture2D& animSheet
-    );
-
     void      damage(int8_t amount);
-    void      draw() const;
+    void      draw(const std::shared_ptr<AssetManager>& assetManager) const;
     Rectangle getCollisionShape() const;
     float     getX() const;
     float     getY() const;
@@ -50,6 +43,20 @@ class Entity {
     ) = 0;
 
   protected:
+    Entity(
+      const int8_t     startingHealth,
+      const int16_t    x,
+      const int16_t    y,
+      const char       *idleSpritePath,
+      const char       *walkSheetPath
+    );
+
+    const char *m_IDLE_SPRITE_PATH;
+    const char *m_WALK_SHEET_PATH;
+
+    int16_t m_x;
+    int16_t m_y;
+
     void m_moveAndCollide(
       const int8_t dirX,
       const int8_t dirY,
@@ -58,9 +65,6 @@ class Entity {
       const int8_t indexOfPlayer,
       const int8_t indexOfSelf
     );
-
-    int16_t m_x;
-    int16_t m_y;
 
   private:
     static constexpr int8_t m_topMargin    { 6 };
@@ -77,7 +81,6 @@ class Entity {
     float                      m_diagonalMoveSpeed;
     float                      m_excessMovement;
     bool                       m_isMoving;
-    Texture2D                  m_idleSprite;
     std::unique_ptr<Animation> m_walkAnim;
 
     bool m_isIntersecting(

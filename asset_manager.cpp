@@ -28,7 +28,7 @@ void AssetManager::loadTexture(const char *path) {
  * Check if a given texture has already been loaded,
  * load it if it has not been loaded, and return the texture.
  */
-Texture2D AssetManager::requestTexture(const char *path) {
+Texture2D& AssetManager::requestTexture(const char *path) {
   if(!m_textures.contains(path)) {
     loadTexture(path);
   }

@@ -27,7 +27,7 @@ class EntityManager {
 
     void addEntity(std::unique_ptr<Entity> newEntity);
     void cleanup();
-    void draw();
+    void draw(const std::shared_ptr<AssetManager>& assetManager) const;
     void init();
     void tick(const std::unique_ptr<Map>& map);
 

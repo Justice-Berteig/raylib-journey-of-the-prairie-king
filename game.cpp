@@ -79,7 +79,7 @@ void Game::m_draw() {
     ClearBackground(WHITE);
 
     m_map->draw();
-    m_entityManager.draw();
+    m_entityManager.draw(m_assetManager);
   EndTextureMode();
   // Scale up and draw the texture
   BeginDrawing();

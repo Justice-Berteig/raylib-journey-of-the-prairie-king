@@ -44,11 +44,11 @@ void EntityManager::cleanup() {
 /*
  * Run the draw() method for every entity in the manager.
  */
-void EntityManager::draw() {
-  for(std::unique_ptr<Entity>& e : m_entities) {
-    e->draw();
+void EntityManager::draw(const std::shared_ptr<AssetManager>& assetManager) const {
+  for(const std::unique_ptr<Entity>& e : m_entities) {
+    e->draw(assetManager);
   }
-  for(std::unique_ptr<Bullet>& b : m_bullets) {
+  for(const std::unique_ptr<Bullet>& b : m_bullets) {
     b->draw(m_assetManager->requestTexture(Assets::BULLET));
   }
 }
@@ -61,8 +61,6 @@ void EntityManager::init() {
   addEntity(std::make_unique<Player>(
     (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
     (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT,
-    m_assetManager->requestTexture(Assets::PLAYER_IDLE),
-    m_assetManager->requestTexture(Assets::PLAYER_WALK),
     m_bullets
   ));
   isPlayerAlive = true;
@@ -124,9 +122,7 @@ void EntityManager::m_handleEnemyRespawning() {
     const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
     addEntity(std::make_unique<Enemy>(
       spawnPosition.x,
-      spawnPosition.y,
-      m_assetManager->requestTexture(Assets::ZOMBIE_IDLE),
-      m_assetManager->requestTexture(Assets::ZOMBIE_WALK)
+      spawnPosition.y
     ));
     m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
   }

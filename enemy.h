@@ -1,4 +1,6 @@
 /*
+      const Texture2D& texture,
+      const Texture2D& animSheet
  * Class to represent an enemy.
  */
 
@@ -18,9 +20,7 @@ class Enemy: public Entity {
   public:
     Enemy(
       const int16_t x,
-      const int16_t y,
-      const Texture2D& texture,
-      const Texture2D& animSheet
+      const int16_t y
     );
 
     EntityType getType() const;

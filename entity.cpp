@@ -7,19 +7,20 @@ Entity::Entity(
   const int8_t     startingHealth,
   const int16_t    x,
   const int16_t    y,
-  const Texture2D& texture,
-  const Texture2D& animSheet
+  const char       *idleSpritePath,
+  const char       *walkSheetPath
 )
 : m_health(startingHealth),
   m_x(x),
   m_y(y),
   m_isMoving(false),
-  m_idleSprite(texture)
+  m_IDLE_SPRITE_PATH(idleSpritePath),
+  m_WALK_SHEET_PATH(walkSheetPath)
 {
-  m_width = m_idleSprite.width;
-  m_height = m_idleSprite.height;
+  m_width = Globals::TILE_WIDTH;
+  m_height = Globals::TILE_HEIGHT;
 
-  m_walkAnim.reset(new Animation(animSheet));
+  m_walkAnim.reset(new Animation(m_WALK_SHEET_PATH));
 }
 
 
@@ -36,15 +37,16 @@ void Entity::damage(int8_t amount) {
 /*
  * Draw the entity using either the idle sprite or walking animation.
  */
-void Entity::draw() const {
+void Entity::draw(const std::shared_ptr<AssetManager>& assetManager) const {
   if(m_isMoving) {
     m_walkAnim->drawCurrentFrameAt(
       getX(),
-      getY()
+      getY(),
+      assetManager
     );
   }else {
     drawTextureAt(
-      m_idleSprite,
+      assetManager->requestTexture(m_IDLE_SPRITE_PATH),
       getX(),
       getY()
     );

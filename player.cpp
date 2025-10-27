@@ -1,15 +1,20 @@
 #include "player.h"
 
+#include "assets.h"
 #include "globals.h"
 
 
 Player::Player(
   const int16_t x,
   const int16_t y,
-  const Texture2D& texture,
-  const Texture2D& animSheet,
   std::vector<std::unique_ptr<Bullet>>& bullets
-): Entity(Globals::PLAYER_STARTING_HEALTH, x, y, texture, animSheet),
+): Entity(
+    Globals::PLAYER_STARTING_HEALTH,
+    x,
+    y,
+    Assets::PLAYER_IDLE,
+    Assets::PLAYER_WALK
+),
    m_bullets(bullets),
    m_shootingCooldownFrames(0)
 {

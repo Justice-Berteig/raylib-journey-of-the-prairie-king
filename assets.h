@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace Assets {
   // Define paths for player textures
   inline constexpr const char *PLAYER_IDLE {"../resources/player_idle.png"};
@@ -17,7 +19,7 @@ namespace Assets {
   inline constexpr const char *BULLET {"../resources/bullet.png"};
 
   // Define paths for map textures
-  inline constexpr const char *GRASS_FLOOR {"../resources/grass_floor.png"};
+  inline constexpr const char *GRASS_FLOOR    {"../resources/grass_floor.png"};
   inline constexpr const char *GRASS_OBSTACLE {"../resources/grass_obstacle.png"};
-  inline constexpr const char *GRASS_WALL {"../resources/grass_wall.png"};
+  inline constexpr const char *GRASS_WALL     {"../resources/grass_wall.png"};
 }

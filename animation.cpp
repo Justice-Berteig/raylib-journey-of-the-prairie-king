@@ -6,13 +6,13 @@
 #include "utils.h"
 
 
-Animation::Animation(Texture2D spriteSheet)
-: m_spriteSheet(spriteSheet)
+Animation::Animation(const char *spriteSheetPath)
+: m_SPRITE_SHEET_PATH(spriteSheetPath)
 {
   m_frameWidth  = Globals::TILE_WIDTH;
   m_frameHeight = Globals::TILE_HEIGHT;
-  m_cols        = m_spriteSheet.width / Globals::TILE_WIDTH;
-  m_rows        = m_spriteSheet.height / Globals::TILE_HEIGHT;
+  m_cols        = 4;
+  m_rows        = 1;
   m_totalFrames = m_cols * m_rows;
 
   m_currentFrame    = 0;
@@ -33,7 +33,13 @@ void Animation::restart() {
  * Draw the current animation frame at a given position.
  * (origin is top-left corner of the image)
  */
-void Animation::drawCurrentFrameAt(float x, float y) {
+void Animation::drawCurrentFrameAt(
+  float x,
+  float y,
+  const std::shared_ptr<AssetManager>& assetManager
+) {
+  const Texture2D spriteSheet = assetManager->requestTexture(m_SPRITE_SHEET_PATH);
+
   // Update the index of the current frame
   m_updateCurrentFrame();
 
@@ -44,7 +50,7 @@ void Animation::drawCurrentFrameAt(float x, float y) {
   Rectangle spriteRect = m_getRectForFrame(m_currentFrame);
 
   // Draw the current frame
-  DrawTexturePro(m_spriteSheet, spriteRect, pos, (Vector2) {0, 0}, 0, WHITE);
+  DrawTexturePro(spriteSheet, spriteRect, pos, (Vector2) {0, 0}, 0, WHITE);
 }
 
 

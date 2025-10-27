@@ -1,14 +1,19 @@
 #include "enemy.h"
 
+#include "assets.h"
 #include "globals.h"
 
 
 Enemy::Enemy(
   const int16_t x,
-  const int16_t y,
-  const Texture2D& texture,
-  const Texture2D& animSheet
-): Entity(Globals::ENEMY_STARTING_HEALTH, x, y, texture, animSheet) {
+  const int16_t y
+): Entity(
+    Globals::ENEMY_STARTING_HEALTH,
+    x,
+    y,
+    Assets::ZOMBIE_IDLE,
+    Assets::ZOMBIE_WALK
+) {
   setSpeed(0.5f);
 }
 
