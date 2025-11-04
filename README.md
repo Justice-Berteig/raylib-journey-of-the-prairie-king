@@ -6,6 +6,7 @@ Arrow keys to shoot
 - Map with some random bushes
 - Can move and collide with stuff
 - Enemies that follow the player
+- Can shoot and kill enemies
 - Game resets when you die
 
 # Build instructions:
