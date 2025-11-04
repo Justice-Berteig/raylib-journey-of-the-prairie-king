@@ -7,7 +7,6 @@
 #include "raylib.h"
 
 #include "asset_manager.h"
-#include "entity.h"
 #include "entity_manager.h"
 #include "globals.h"
 #include "map.h"
@@ -31,10 +30,10 @@ class Game {
     // Define amount to scale up the render texture
     static constexpr int8_t  s_RENDER_TEXTURE_SCALE { 4 };
 
-    std::shared_ptr<AssetManager>         m_assetManager;
-    EntityManager                         m_entityManager;
-    std::unique_ptr<Map>                  m_map;
-    RenderTexture2D                       m_target;
+    std::shared_ptr<AssetManager> m_assetManager;
+    EntityManager                 m_entityManager;
+    std::unique_ptr<Map>          m_map;
+    RenderTexture2D               m_target;
 
     void m_cleanup();
     void m_draw();

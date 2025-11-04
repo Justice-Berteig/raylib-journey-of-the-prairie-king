@@ -8,10 +8,11 @@
 #include <memory>
 #include <vector>
 
+#include "raylib.h"
+
 #include "asset_manager.h"
 #include "entity.h"
 #include "map.h"
-#include "raylib.h"
 
 
 class EntityManager {

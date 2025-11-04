@@ -9,9 +9,10 @@
 #include <memory>
 #include <vector>
 
+#include "raylib.h"
+
 #include "asset_manager.h"
 #include "globals.h"
-#include "raylib.h"
 
 
 enum class TileType {
