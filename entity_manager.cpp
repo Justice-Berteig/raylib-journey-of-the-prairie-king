@@ -12,7 +12,7 @@
 
 EntityManager::EntityManager(
   const std::shared_ptr<AssetManager>& assetManager
-): indexOfPlayer(0),
+): m_indexOfPlayer(0),
    m_assetManager(std::move(assetManager)),
    m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
 {
@@ -36,7 +36,7 @@ EntityManager::~EntityManager() {
  */
 void EntityManager::cleanup() {
   m_entities.clear();
-  indexOfPlayer = 0;
+  m_indexOfPlayer = 0;
 }
 
 
@@ -73,8 +73,8 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
     const int8_t indexOfSelf = i;
 
     if(e->isAlive) {
-      e->tick(m_entities, *map, indexOfPlayer, indexOfSelf);
-    }else if(indexOfSelf == indexOfPlayer) {
+      e->tick(m_entities, *map, m_indexOfPlayer, indexOfSelf);
+    }else if(indexOfSelf == m_indexOfPlayer) {
       isPlayerAlive = false;
     }else {
       m_removeEntityByIndex(indexOfSelf);
@@ -116,11 +116,11 @@ void EntityManager::m_handleEnemyRespawning() {
 
 /*
  * Remove the entity at a given index from this entity manager
- * while keeping the indexOfPlayer variable accurate.
+ * while keeping the m_indexOfPlayer variable accurate.
  */
 void EntityManager::m_removeEntityByIndex(int8_t index) {
   m_entities.erase(m_entities.begin() + index);
-  if(index < indexOfPlayer) indexOfPlayer--;
+  if(index < m_indexOfPlayer) m_indexOfPlayer--;
 
   std::cout << "[EntityManager]: Removed entity at index " << static_cast<int>(index) << '\n';
 }
@@ -128,7 +128,7 @@ void EntityManager::m_removeEntityByIndex(int8_t index) {
 
 /*
  * Sort entities in ascending order based on Y position.
- * Also update indexOfPlayer as the player is moved around.
+ * Also update m_indexOfPlayer as the player is moved around.
  */
 void EntityManager::m_ySortEntities() {
   if(m_entities.size() <= 1) return;
@@ -147,8 +147,8 @@ void EntityManager::m_ySortEntities() {
         m_entities[i-1] = std::move(m_entities[i]);
         m_entities[i]   = std::move(temp);
 
-        if     ((i-1) == indexOfPlayer) ++indexOfPlayer;
-        else if( i    == indexOfPlayer) --indexOfPlayer;
+        if     ((i-1) == m_indexOfPlayer) ++m_indexOfPlayer;
+        else if( i    == m_indexOfPlayer) --m_indexOfPlayer;
       } 
     }  
   }
