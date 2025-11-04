@@ -21,11 +21,10 @@ class EntityManager {
     );
     ~EntityManager();
 
-    bool   isPlayerAlive { false };
-
     void cleanup();
     void draw(const std::shared_ptr<AssetManager>& assetManager) const;
     void init();
+    bool isPlayerAlive() const;
     void tick(const std::unique_ptr<Map>& map);
 
   private:
@@ -35,6 +34,7 @@ class EntityManager {
     std::vector<std::unique_ptr<Entity>> m_entities;
     int8_t                               m_enemyRespawnCooldownFrames;
     int8_t                               m_indexOfPlayer;
+    bool                                 m_isPlayerAlive { false };
     std::vector<Vector2>                 m_validEnemySpawnPositions;
 
     void m_addEntity(std::unique_ptr<Entity> newEntity);

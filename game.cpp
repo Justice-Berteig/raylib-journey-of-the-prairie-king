@@ -133,7 +133,7 @@ void Game::m_restart() {
 void Game::m_tick() {
   m_entityManager.tick(m_map);
 
-  if(!m_entityManager.isPlayerAlive) {
+  if(!m_entityManager.isPlayerAlive()) {
     m_restart();
   }
 }

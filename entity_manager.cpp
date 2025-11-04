@@ -58,7 +58,12 @@ void EntityManager::init() {
     (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
     (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT
   ));
-  isPlayerAlive = true;
+  m_isPlayerAlive = true;
+}
+
+
+bool EntityManager::isPlayerAlive() const {
+  return m_isPlayerAlive;
 }
 
 
@@ -75,7 +80,7 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
     if(e->isAlive) {
       e->tick(m_entities, *map, m_indexOfPlayer, indexOfSelf);
     }else if(indexOfSelf == m_indexOfPlayer) {
-      isPlayerAlive = false;
+      m_isPlayerAlive = false;
     }else {
       m_removeEntityByIndex(indexOfSelf);
     }
