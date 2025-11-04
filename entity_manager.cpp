@@ -54,7 +54,7 @@ void EntityManager::draw(const std::shared_ptr<AssetManager>& assetManager) cons
  * Initialize EntityManager with a player.
  */
 void EntityManager::init() {
-  addEntity(std::make_unique<Player>(
+  m_addEntity(std::make_unique<Player>(
     (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
     (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT
   ));
@@ -88,7 +88,7 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
 /*
  * Add a new entity to the entity manager.
  */
-void EntityManager::addEntity(std::unique_ptr<Entity> newEntity) {
+void EntityManager::m_addEntity(std::unique_ptr<Entity> newEntity) {
   m_entities.push_back(std::move(newEntity));
 
   std::cout << "[EntityManager]: Added new entity." << '\n';
@@ -105,7 +105,7 @@ void EntityManager::m_handleEnemyRespawning() {
     // Spawn an enemy
     // Choose a tile to spawn the enemy on
     const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
-    addEntity(std::make_unique<Enemy>(
+    m_addEntity(std::make_unique<Enemy>(
       spawnPosition.x,
       spawnPosition.y
     ));

@@ -24,7 +24,6 @@ class EntityManager {
     int8_t indexOfPlayer;
     bool   isPlayerAlive { false };
 
-    void addEntity(std::unique_ptr<Entity> newEntity);
     void cleanup();
     void draw(const std::shared_ptr<AssetManager>& assetManager) const;
     void init();
@@ -38,6 +37,7 @@ class EntityManager {
     int8_t                               m_enemyRespawnCooldownFrames;
     std::vector<Vector2>                 m_validEnemySpawnPositions;
 
+    void m_addEntity(std::unique_ptr<Entity> newEntity);
     void m_handleEnemyRespawning();
     void m_removeEntityByIndex(int8_t index);
     void m_ySortEntities();
