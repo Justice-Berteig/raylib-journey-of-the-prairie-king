@@ -14,7 +14,7 @@
 #include "map.h"
 
 
-class Bullet {
+class Bullet: public Entity {
   public:
     Bullet(
       const int16_t x,
@@ -23,30 +23,21 @@ class Bullet {
       const int8_t  yDir
     );
 
-    void draw(const Texture2D& sprite);
-    void moveAndCollide(
-      const std::vector<std::unique_ptr<Entity>>& entities,
+    Rectangle  getCollisionShape() const;
+    EntityType getType() const;
+    void       tick(
+      std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
-      const int8_t indexOfPlayer
+      const int8_t indexOfPlayer,
+      const int8_t indexOfSelf
     );
 
-    bool isDestroyed { false };
-
   private:
-    static constexpr float m_moveSpeed         { 2.0f };
-    static constexpr float m_diagonalMoveSpeed { (m_moveSpeed * 2) / 3 };
+    static constexpr int8_t s_topMargin    { 6 };
+    static constexpr int8_t s_bottomMargin { 6 };
+    static constexpr int8_t s_leftMargin   { 6 };
+    static constexpr int8_t s_rightMargin  { 6 };
 
-    int16_t     m_x;
-    int16_t     m_y;
     int8_t      m_xDir;
     int8_t      m_yDir;
-    float       m_excessMovement;
-    float       m_speed;
-
-    Rectangle m_getCollisionShape() const;
-    bool      m_isIntersecting(
-      const std::vector<std::unique_ptr<Entity>>& entities,
-      const Map& map,
-      const int8_t indexOfPlayer
-    ) const;
 };

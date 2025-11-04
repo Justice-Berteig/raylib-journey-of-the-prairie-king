@@ -27,16 +27,16 @@ class Entity {
   public:
     void      damage(int8_t amount);
     void      draw(const std::shared_ptr<AssetManager>& assetManager) const;
-    Rectangle getCollisionShape() const;
     float     getX() const;
     float     getY() const;
     bool      isAlive { true };
     bool      isCollidingWith(const Rectangle& otherRect) const;
     void      setSpeed(const float newSpeed);
 
+    virtual Rectangle  getCollisionShape() const = 0;
     virtual EntityType getType() const = 0;
     virtual void       tick(
-      const std::vector<std::unique_ptr<Entity>>& entities,
+      std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
       const int8_t indexOfPlayer,
       const int8_t indexOfSelf
@@ -67,13 +67,6 @@ class Entity {
     );
 
   private:
-    static constexpr int8_t m_topMargin    { 6 };
-    static constexpr int8_t m_bottomMargin { 0 };
-    static constexpr int8_t m_leftMargin   { 2 };
-    static constexpr int8_t m_rightMargin  { 2 };
-
-    int8_t                     m_width;
-    int8_t                     m_height;
     int8_t                     m_health;
     int8_t                     m_prevDirX;
     int8_t                     m_prevDirY;

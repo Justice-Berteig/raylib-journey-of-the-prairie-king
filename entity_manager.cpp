@@ -35,7 +35,6 @@ EntityManager::~EntityManager() {
  * Unload all remaining entities.
  */
 void EntityManager::cleanup() {
-  m_bullets.clear();
   m_entities.clear();
   indexOfPlayer = 0;
 }
@@ -48,9 +47,6 @@ void EntityManager::draw(const std::shared_ptr<AssetManager>& assetManager) cons
   for(const std::unique_ptr<Entity>& e : m_entities) {
     e->draw(assetManager);
   }
-  for(const std::unique_ptr<Bullet>& b : m_bullets) {
-    b->draw(m_assetManager->requestTexture(Assets::BULLET));
-  }
 }
 
 
@@ -60,8 +56,7 @@ void EntityManager::draw(const std::shared_ptr<AssetManager>& assetManager) cons
 void EntityManager::init() {
   addEntity(std::make_unique<Player>(
     (Globals::MAP_WIDTH / 2) * Globals::TILE_WIDTH,
-    (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT,
-    m_bullets
+    (Globals::MAP_HEIGHT / 2) * Globals::TILE_HEIGHT
   ));
   isPlayerAlive = true;
 }
@@ -83,16 +78,6 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
       isPlayerAlive = false;
     }else {
       m_removeEntityByIndex(indexOfSelf);
-    }
-  }
-
-  for(int8_t i = 0; i < m_bullets.size(); ++i) {
-    const std::unique_ptr<Bullet>& b { m_bullets[i] };
-
-    if(!b->isDestroyed) {
-      b->moveAndCollide(m_entities, *map, indexOfPlayer);
-    }else {
-      m_bullets.erase(m_bullets.begin() + i);
     }
   }
 

@@ -10,7 +10,6 @@
 
 #include "raylib.h"
 
-#include "bullet.h"
 #include "entity.h"
 #include "map.h"
 
@@ -19,13 +18,13 @@ class Player: public Entity {
   public:    
     Player(
       const int16_t x,
-      const int16_t y,
-      std::vector<std::unique_ptr<Bullet>>& bullets
+      const int16_t y
     );
 
+    Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(
-      const std::vector<std::unique_ptr<Entity>>& entities,
+      std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
       const int8_t indexOfPlayer,
       const int8_t indexOfSelf
@@ -33,7 +32,10 @@ class Player: public Entity {
 
   private:
     static constexpr int8_t s_maxShootingCooldownFrames { 28 };
+    static constexpr int8_t s_topMargin    { 6 };
+    static constexpr int8_t s_bottomMargin { 0 };
+    static constexpr int8_t s_leftMargin   { 2 };
+    static constexpr int8_t s_rightMargin  { 2 };
     
-    int8_t                                m_shootingCooldownFrames;
-    std::vector<std::unique_ptr<Bullet>>& m_bullets;
+    int8_t m_shootingCooldownFrames;
 };

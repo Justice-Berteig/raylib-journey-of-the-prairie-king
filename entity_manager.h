@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "asset_manager.h"
-#include "bullet.h"
 #include "entity.h"
 #include "map.h"
 #include "raylib.h"
@@ -35,7 +34,6 @@ class EntityManager {
     static constexpr int8_t s_maxEnemyRespawnCooldownFrames { 90 };
 
     std::shared_ptr<AssetManager>        m_assetManager;
-    std::vector<std::unique_ptr<Bullet>> m_bullets;
     std::vector<std::unique_ptr<Entity>> m_entities;
     int8_t                               m_enemyRespawnCooldownFrames;
     std::vector<Vector2>                 m_validEnemySpawnPositions;

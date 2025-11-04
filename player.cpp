@@ -1,24 +1,35 @@
 #include "player.h"
 
 #include "assets.h"
+#include "bullet.h"
 #include "globals.h"
 
 
 Player::Player(
   const int16_t x,
-  const int16_t y,
-  std::vector<std::unique_ptr<Bullet>>& bullets
+  const int16_t y
 ): Entity(
     Globals::PLAYER_STARTING_HEALTH,
     x,
     y,
     Assets::PLAYER_IDLE,
     Assets::PLAYER_WALK
-),
-   m_bullets(bullets),
-   m_shootingCooldownFrames(0)
+), m_shootingCooldownFrames(0)
 {
   setSpeed(1.0f);
+}
+
+
+/*
+ * Get the rectangle used to check for collisions.
+ */
+Rectangle Player::getCollisionShape() const {
+  return {
+    getX()               + s_leftMargin,
+    getY()               + s_topMargin,
+    Globals::TILE_WIDTH  - static_cast<float>(s_leftMargin + s_rightMargin),
+    Globals::TILE_HEIGHT - static_cast<float>(s_topMargin + s_bottomMargin)
+  };
 }
 
 
@@ -31,7 +42,7 @@ EntityType Player::getType() const {
  * Move based on player input.
  */
 void Player::tick(
-  const std::vector<std::unique_ptr<Entity>>& entities,
+  std::vector<std::unique_ptr<Entity>>& entities,
   const Map& map,
   const int8_t indexOfPlayer,
   const int8_t indexOfSelf
@@ -66,7 +77,7 @@ void Player::tick(
     m_shootingCooldownFrames == 0
     && (xShootingDir != 0 || yShootingDir != 0)
   ) {
-    m_bullets.push_back(std::make_unique<Bullet>(
+    entities.push_back(std::make_unique<Bullet>(
       m_x,
       m_y,
       xShootingDir,

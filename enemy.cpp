@@ -18,6 +18,19 @@ Enemy::Enemy(
 }
 
 
+/*
+ * Get the rectangle used to check for collisions.
+ */
+Rectangle Enemy::getCollisionShape() const {
+  return {
+    getX()               + s_leftMargin,
+    getY()               + s_topMargin,
+    Globals::TILE_WIDTH  - static_cast<float>(s_leftMargin + s_rightMargin),
+    Globals::TILE_HEIGHT - static_cast<float>(s_topMargin + s_bottomMargin)
+  };
+}
+
+
 EntityType Enemy::getType() const {
   return EntityType::ENEMY;
 }
@@ -27,7 +40,7 @@ EntityType Enemy::getType() const {
  * Move towards player. Damage player if colliding with them.
  */
 void Enemy::tick(
-  const std::vector<std::unique_ptr<Entity>>& entities,
+  std::vector<std::unique_ptr<Entity>>& entities,
   const Map& map,
   const int8_t indexOfPlayer,
   const int8_t indexOfSelf

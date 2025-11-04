@@ -1,6 +1,4 @@
 /*
-      const Texture2D& texture,
-      const Texture2D& animSheet
  * Class to represent an enemy.
  */
 
@@ -23,11 +21,18 @@ class Enemy: public Entity {
       const int16_t y
     );
 
+    Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(
-      const std::vector<std::unique_ptr<Entity>>& entities,
+      std::vector<std::unique_ptr<Entity>>& entities,
       const Map& map,
       const int8_t indexOfPlayer,
       const int8_t indexOfSelf
     );
+
+  private:
+    static constexpr int8_t s_topMargin    { 6 };
+    static constexpr int8_t s_bottomMargin { 0 };
+    static constexpr int8_t s_leftMargin   { 2 };
+    static constexpr int8_t s_rightMargin  { 2 };
 };

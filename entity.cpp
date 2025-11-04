@@ -9,18 +9,16 @@ Entity::Entity(
   const int16_t    y,
   const char       *idleSpritePath,
   const char       *walkSheetPath
-)
-: m_health(startingHealth),
+):
+  m_health(startingHealth),
   m_x(x),
   m_y(y),
   m_isMoving(false),
   m_IDLE_SPRITE_PATH(idleSpritePath),
   m_WALK_SHEET_PATH(walkSheetPath)
 {
-  m_width = Globals::TILE_WIDTH;
-  m_height = Globals::TILE_HEIGHT;
-
-  m_walkAnim.reset(new Animation(m_WALK_SHEET_PATH));
+  if(walkSheetPath) m_walkAnim.reset(new Animation(m_WALK_SHEET_PATH));
+  else m_walkAnim = nullptr;
 }
 
 
@@ -38,7 +36,7 @@ void Entity::damage(int8_t amount) {
  * Draw the entity using either the idle sprite or walking animation.
  */
 void Entity::draw(const std::shared_ptr<AssetManager>& assetManager) const {
-  if(m_isMoving) {
+  if(m_isMoving && m_walkAnim) {
     m_walkAnim->drawCurrentFrameAt(
       getX(),
       getY(),
@@ -51,19 +49,6 @@ void Entity::draw(const std::shared_ptr<AssetManager>& assetManager) const {
       getY()
     );
   }
-}
-
-
-/*
- * Get the rectangle used to check for collisions.
- */
-Rectangle Entity::getCollisionShape() const {
-  return {
-    getX()   + m_leftMargin,
-    getY()   + m_topMargin,
-    m_width  - static_cast<float>(m_leftMargin + m_rightMargin),
-    m_height - static_cast<float>(m_topMargin + m_bottomMargin)
-  };
 }
 
 
@@ -121,15 +106,18 @@ void Entity::m_moveAndCollide(
   m_prevDirY = yDir;
 
   // Check if the entity is actually moving
+  // TODO: Might still be colliding even if not moving, and should be moved away
   if(xDir == 0 && yDir == 0) {
     m_isMoving = false;
     return;
   }
 
   // If the entity is actually moving
-  if(!m_isMoving) m_walkAnim->restart();
+  // Restart the walk animation if the entity just started moving
+  if(!m_isMoving && m_walkAnim) m_walkAnim->restart();
   m_isMoving = true;
- 
+
+  // Check if entity is currently colliding with something
   if(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
 
   int16_t initialX { m_x };
@@ -152,33 +140,47 @@ void Entity::m_moveAndCollide(
   int16_t velX { static_cast<int16_t>(xDir * amountToMove) };
   int16_t velY { static_cast<int16_t>(yDir * amountToMove) };
 
+  // Apply movement
   m_x += velX;
   m_y += velY;
 
+  // Check collisions again
   if(!m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
+  else if(getType() == EntityType::BULLET) isAlive = false;
+  else {
+    // If the entity collided with something and is not a bullet
+    m_x = initialX;
+    m_y = initialY;
+    int16_t increment { 0 };
 
-  // If the entity collided with something
-  m_x = initialX;
-  m_y = initialY;
-  int16_t increment { 0 };
+    // Apply movement in only x direction, then move back in increments of 1 until
+    // the entity is no longer colliding with anything
+    m_x += velX;
 
-  // Apply movement in only x direction, then move back in increments of 1 until
-  // the entity is no longer colliding with anything
-  m_x += velX;
+    if(velX > 0) increment = 1;
+    else increment = -1;
+    while(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) {
+      m_x -= increment;
+    }
 
-  if(velX > 0) increment = 1;
-  else increment = -1;
-  while(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) {
-    m_x -= increment;
+    // Do the same but in the y direction now
+    m_y += velY;
+
+    if(velY > 0) increment = 1;
+    else increment = -1;
+    while(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) {
+      m_y -= increment;
+    }
   }
 
-  // Do the same but in the y direction now
-  m_y += velY;
-
-  if(velY > 0) increment = 1;
-  else increment = -1;
-  while(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) {
-    m_y -= increment;
+  // Destroy the entity if it is off screen
+  if(
+    m_x    < 0 - Globals::TILE_WIDTH
+    || m_y < 0 - Globals::TILE_HEIGHT
+    || m_x > (Globals::MAP_WIDTH  - 1) * Globals::TILE_WIDTH
+    || m_y > (Globals::MAP_HEIGHT - 1) * Globals::TILE_HEIGHT
+  ) {
+    isAlive = false;
   }
 }
 
@@ -198,7 +200,13 @@ bool Entity::m_isIntersecting(
     if(i == indexOfSelf || i == indexOfPlayer) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    if(e->isCollidingWith(selfCollisionShape)) return true;
+    if(e->isCollidingWith(selfCollisionShape)) {
+      if(
+        getType() == EntityType::BULLET
+        && e->getType() == EntityType::ENEMY
+      ) e->damage(1);
+      return true;
+    }
   }
 
   return false;
