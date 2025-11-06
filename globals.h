@@ -20,7 +20,7 @@ namespace Globals {
 
   // Define starting health values
   inline constexpr int8_t PLAYER_STARTING_HEALTH { 1 };
-  inline constexpr int8_t ENEMY_STARTING_HEALTH  { 1 };
+  inline constexpr int8_t ZOMBIE_STARTING_HEALTH  { 1 };
   inline constexpr int8_t BULLET_STARTING_HEALTH { 1 };
 
   // Define function to get list of valid spawn points

@@ -203,7 +203,7 @@ bool Entity::m_isIntersecting(
     if(e->isCollidingWith(selfCollisionShape)) {
       if(
         getType() == EntityType::BULLET
-        && e->getType() == EntityType::ENEMY
+        && e->getType() == EntityType::ZOMBIE
       ) e->damage(1);
       return true;
     }

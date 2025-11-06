@@ -14,9 +14,9 @@
 #include "map.h"
 
 
-class Enemy: public Entity {
+class Zombie: public Entity {
   public:
-    Enemy(
+    Zombie(
       const int16_t x,
       const int16_t y
     );

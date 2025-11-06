@@ -46,8 +46,8 @@ add_executable(
   assets.h
   player.cpp
   player.h
-  enemy.cpp
-  enemy.h
+  zombie.cpp
+  zombie.h
   bullet.cpp
   bullet.h
   entity_manager.cpp

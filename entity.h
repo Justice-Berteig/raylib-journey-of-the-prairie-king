@@ -18,7 +18,7 @@
 
 enum class EntityType {
   PLAYER,
-  ENEMY,
+  ZOMBIE,
   BULLET
 };
 

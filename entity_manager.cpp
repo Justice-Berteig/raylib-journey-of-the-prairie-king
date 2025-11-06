@@ -5,9 +5,9 @@
 #include <iostream>
 
 #include "assets.h"
-#include "enemy.h"
 #include "globals.h"
 #include "player.h"
+#include "zombie.h"
 
 
 EntityManager::EntityManager(
@@ -110,7 +110,7 @@ void EntityManager::m_handleEnemyRespawning() {
     // Spawn an enemy
     // Choose a tile to spawn the enemy on
     const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
-    m_addEntity(std::make_unique<Enemy>(
+    m_addEntity(std::make_unique<Zombie>(
       spawnPosition.x,
       spawnPosition.y
     ));

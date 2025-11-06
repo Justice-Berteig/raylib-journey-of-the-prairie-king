@@ -1,14 +1,14 @@
-#include "enemy.h"
+#include "zombie.h"
 
 #include "assets.h"
 #include "globals.h"
 
 
-Enemy::Enemy(
+Zombie::Zombie(
   const int16_t x,
   const int16_t y
 ): Entity(
-    Globals::ENEMY_STARTING_HEALTH,
+    Globals::ZOMBIE_STARTING_HEALTH,
     x,
     y,
     Assets::ZOMBIE_IDLE,
@@ -21,7 +21,7 @@ Enemy::Enemy(
 /*
  * Get the rectangle used to check for collisions.
  */
-Rectangle Enemy::getCollisionShape() const {
+Rectangle Zombie::getCollisionShape() const {
   return {
     getX()               + s_leftMargin,
     getY()               + s_topMargin,
@@ -31,15 +31,15 @@ Rectangle Enemy::getCollisionShape() const {
 }
 
 
-EntityType Enemy::getType() const {
-  return EntityType::ENEMY;
+EntityType Zombie::getType() const {
+  return EntityType::ZOMBIE;
 }
 
 
 /*
  * Move towards player. Damage player if colliding with them.
  */
-void Enemy::tick(
+void Zombie::tick(
   std::vector<std::unique_ptr<Entity>>& entities,
   const Map& map,
   const int8_t indexOfPlayer,
