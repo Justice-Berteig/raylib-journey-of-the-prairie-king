@@ -10,8 +10,8 @@
  * Constructor initializes the window + any needed objects
  */
 Game::Game()
-: m_assetManager(std::make_shared<AssetManager>()),
-  m_entityManager(m_assetManager)
+: m_assetManager(std::make_shared<AssetManager>())
+, m_entityManager(m_assetManager)
 {
   std::cout << "[Game]: created.\n";
   

@@ -7,12 +7,13 @@
 Zombie::Zombie(
   const int16_t x,
   const int16_t y
-): Entity(
-    Globals::ZOMBIE_STARTING_HEALTH,
-    x,
-    y,
-    Assets::ZOMBIE_IDLE,
-    Assets::ZOMBIE_WALK
+)
+: Entity(
+  Globals::ZOMBIE_STARTING_HEALTH,
+  x,
+  y,
+  Assets::ZOMBIE_IDLE,
+  Assets::ZOMBIE_WALK
 ) {
   setSpeed(0.5f);
 }

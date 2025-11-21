@@ -8,13 +8,15 @@
 Player::Player(
   const int16_t x,
   const int16_t y
-): Entity(
-    Globals::PLAYER_STARTING_HEALTH,
-    x,
-    y,
-    Assets::PLAYER_IDLE,
-    Assets::PLAYER_WALK
-), m_shootingCooldownFrames(0)
+)
+: Entity(
+  Globals::PLAYER_STARTING_HEALTH,
+  x,
+  y,
+  Assets::PLAYER_IDLE,
+  Assets::PLAYER_WALK
+)
+, m_shootingCooldownFrames(0)
 {
   setSpeed(1.0f);
 }

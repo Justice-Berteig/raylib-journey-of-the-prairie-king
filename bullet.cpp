@@ -5,19 +5,23 @@
 
 
 Bullet::Bullet(
-  const int16_t    x,
-  const int16_t    y,
-  const int8_t     xDir,
-  const int8_t     yDir
-): Entity(
+  const int16_t x,
+  const int16_t y,
+  const int8_t  xDir,
+  const int8_t  yDir
+)
+: Entity(
   Globals::BULLET_STARTING_HEALTH,
   x,
   y,
   Assets::BULLET,
   nullptr
-), m_xDir(xDir), m_yDir(yDir) {
-  m_x     = x + (xDir * Globals::TILE_WIDTH  / 2);
-  m_y     = y + (yDir * Globals::TILE_HEIGHT / 2);
+)
+, m_xDir(xDir)
+, m_yDir(yDir)
+{
+  m_x = x + (xDir * Globals::TILE_WIDTH  / 2);
+  m_y = y + (yDir * Globals::TILE_HEIGHT / 2);
   setSpeed(2.0f);
 }
 

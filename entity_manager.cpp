@@ -12,9 +12,10 @@
 
 EntityManager::EntityManager(
   const std::shared_ptr<AssetManager>& assetManager
-): m_indexOfPlayer(0),
-   m_assetManager(std::move(assetManager)),
-   m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
+)
+: m_indexOfPlayer(0)
+, m_assetManager(std::move(assetManager))
+, m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
 {
   srand(time(0));
   std::cout << "[EntityManager]: Created.\n";

@@ -9,13 +9,13 @@ Entity::Entity(
   const int16_t    y,
   const char       *idleSpritePath,
   const char       *walkSheetPath
-):
-  m_health(startingHealth),
-  m_x(x),
-  m_y(y),
-  m_isMoving(false),
-  m_IDLE_SPRITE_PATH(idleSpritePath),
-  m_WALK_SHEET_PATH(walkSheetPath)
+)
+: m_health(startingHealth)
+, m_x(x)
+, m_y(y)
+, m_isMoving(false)
+, m_IDLE_SPRITE_PATH(idleSpritePath)
+, m_WALK_SHEET_PATH(walkSheetPath)
 {
   if(walkSheetPath) m_walkAnim.reset(new Animation(m_WALK_SHEET_PATH));
   else m_walkAnim = nullptr;
