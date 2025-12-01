@@ -182,7 +182,12 @@ bool Entity::m_isIntersecting(
   const int8_t indexOfSelf
 ) const {
   const Rectangle selfCollisionShape { getCollisionShape() };
+
+  // Check for collisions with the map
   if(map.isCollidingWith(selfCollisionShape)) return true;
+
+  // Check for collisions with entities
+  // TODO: handling bullet damage here but it should really be somewhere else
   for(int8_t i = 0; i < entities.size(); ++i) {
     if(i == indexOfSelf || i == indexOfPlayer) continue;
 
