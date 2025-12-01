@@ -11,7 +11,7 @@
  * Constructor requests needed textures
  * and does initial map generation.
  */
-Map::Map(std::shared_ptr<AssetManager>& assetManager) {
+Map::Map(std::unique_ptr<AssetManager>& assetManager) {
   // Request textures
   m_floorTexture    = assetManager->requestTexture(Assets::GRASS_FLOOR);
   m_obstacleTexture = assetManager->requestTexture(Assets::GRASS_OBSTACLE);

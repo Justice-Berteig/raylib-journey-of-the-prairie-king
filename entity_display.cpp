@@ -16,7 +16,7 @@ EntityDisplay::EntityDisplay(
 
 
 void EntityDisplay::draw(
-  const std::shared_ptr<AssetManager>& assetManager,
+  const std::unique_ptr<AssetManager>& assetManager,
   const bool isMoving,
   const float x,
   const float y

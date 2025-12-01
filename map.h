@@ -24,7 +24,7 @@ enum class TileType {
 
 class Map {
   public:
-    Map(std::shared_ptr<AssetManager>& assetManager);
+    Map(std::unique_ptr<AssetManager>& assetManager);
 
     void draw() const;
     bool isCollidingWith(const Rectangle& rect) const;

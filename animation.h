@@ -19,7 +19,7 @@ class Animation {
     void drawCurrentFrameAt(
       float x,
       float y,
-      const std::shared_ptr<AssetManager>& assetManager
+      const std::unique_ptr<AssetManager>& assetManager
     );
     void restart();
 

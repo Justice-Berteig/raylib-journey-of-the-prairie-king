@@ -36,7 +36,7 @@ void Animation::restart() {
 void Animation::drawCurrentFrameAt(
   float x,
   float y,
-  const std::shared_ptr<AssetManager>& assetManager
+  const std::unique_ptr<AssetManager>& assetManager
 ) {
   const Texture2D spriteSheet = assetManager->requestTexture(m_SPRITE_SHEET_PATH);
 

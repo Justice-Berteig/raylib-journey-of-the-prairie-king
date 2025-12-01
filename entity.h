@@ -26,7 +26,7 @@ enum class EntityType {
 class Entity {
   public:
     void      damage(int8_t amount);
-    void      draw(const std::shared_ptr<AssetManager>& assetManager) const;
+    void      draw(const std::unique_ptr<AssetManager>& assetManager) const;
     float     getX() const;
     float     getY() const;
     bool      isAlive { true };

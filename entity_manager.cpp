@@ -10,11 +10,8 @@
 #include "zombie.h"
 
 
-EntityManager::EntityManager(
-  const std::shared_ptr<AssetManager>& assetManager
-)
+EntityManager::EntityManager()
 : m_indexOfPlayer(0)
-, m_assetManager(std::move(assetManager))
 , m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
 {
   srand(time(0));
@@ -44,7 +41,7 @@ void EntityManager::cleanup() {
 /*
  * Run the draw() method for every entity in the manager.
  */
-void EntityManager::draw(const std::shared_ptr<AssetManager>& assetManager) const {
+void EntityManager::draw(const std::unique_ptr<AssetManager>& assetManager) const {
   for(const std::unique_ptr<Entity>& e : m_entities) {
     e->draw(assetManager);
   }

@@ -35,7 +35,7 @@ void Entity::damage(int8_t amount) {
 /*
  * Draw the entity using either the idle sprite or walking animation.
  */
-void Entity::draw(const std::shared_ptr<AssetManager>& assetManager) const {
+void Entity::draw(const std::unique_ptr<AssetManager>& assetManager) const {
   if(m_isMoving && m_walkAnim) {
     m_walkAnim->drawCurrentFrameAt(
       getX(),
