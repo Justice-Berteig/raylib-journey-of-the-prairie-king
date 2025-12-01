@@ -52,6 +52,8 @@ add_executable(
   bullet.h
   entity_manager.cpp
   entity_manager.h
+  entity_display.cpp
+  entity_display.h
 )
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
