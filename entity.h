@@ -11,8 +11,8 @@
 
 #include "raylib.h"
 
-#include "animation.h"
 #include "asset_manager.h"
+#include "entity_display.h"
 #include "map.h"
 
 
@@ -51,9 +51,6 @@ class Entity {
       const char       *walkSheetPath
     );
 
-    const char *m_IDLE_SPRITE_PATH;
-    const char *m_WALK_SHEET_PATH;
-
     int16_t m_x;
     int16_t m_y;
 
@@ -74,7 +71,7 @@ class Entity {
     float                      m_diagonalMoveSpeed;
     float                      m_excessMovement;
     bool                       m_isMoving;
-    std::unique_ptr<Animation> m_walkAnim;
+    EntityDisplay              m_display;
 
     bool m_isIntersecting(
       const std::vector<std::unique_ptr<Entity>>& entities,

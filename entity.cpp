@@ -14,12 +14,8 @@ Entity::Entity(
 , m_x(x)
 , m_y(y)
 , m_isMoving(false)
-, m_IDLE_SPRITE_PATH(idleSpritePath)
-, m_WALK_SHEET_PATH(walkSheetPath)
-{
-  if(walkSheetPath) m_walkAnim.reset(new Animation(m_WALK_SHEET_PATH));
-  else m_walkAnim = nullptr;
-}
+, m_display(idleSpritePath, walkSheetPath)
+{}
 
 
 /*
@@ -36,19 +32,12 @@ void Entity::damage(int8_t amount) {
  * Draw the entity using either the idle sprite or walking animation.
  */
 void Entity::draw(const std::unique_ptr<AssetManager>& assetManager) const {
-  if(m_isMoving && m_walkAnim) {
-    m_walkAnim->drawCurrentFrameAt(
-      getX(),
-      getY(),
-      assetManager
-    );
-  }else {
-    drawTextureAt(
-      assetManager->requestTexture(m_IDLE_SPRITE_PATH),
-      getX(),
-      getY()
-    );
-  }
+  m_display.draw(
+    assetManager,
+    m_isMoving,
+    getX(),
+    getY()
+  );
 }
 
 
@@ -112,12 +101,10 @@ void Entity::m_moveAndCollide(
     return;
   }
 
-  // If the entity is actually moving
-  // Restart the walk animation if the entity just started moving
-  if(!m_isMoving && m_walkAnim) m_walkAnim->restart();
   m_isMoving = true;
 
   // Check if entity is currently colliding with something
+  // TODO: Destroy bullets if they start the frame colliding with something
   if(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
 
   int16_t initialX { m_x };
