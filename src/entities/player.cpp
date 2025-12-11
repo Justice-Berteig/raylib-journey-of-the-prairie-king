@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include "assets.h"
+#include "assets/assets.h"
 #include "bullet.h"
 #include "globals.h"
 

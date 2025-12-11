@@ -10,7 +10,7 @@
 
 #include "raylib.h"
 
-#include "asset_manager.h"
+#include "assets/asset_manager.h"
 #include "entity.h"
 #include "map.h"
 

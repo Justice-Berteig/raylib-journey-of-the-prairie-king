@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "assets.h"
+#include "assets/assets.h"
 #include "utils.h"
 
 

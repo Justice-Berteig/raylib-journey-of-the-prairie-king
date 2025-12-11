@@ -6,8 +6,8 @@
 
 #include "raylib.h"
 
-#include "asset_manager.h"
-#include "entity_manager.h"
+#include "assets/asset_manager.h"
+#include "entities/entity_manager.h"
 #include "globals.h"
 #include "map.h"
 

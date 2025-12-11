@@ -24,36 +24,36 @@ FetchContent_MakeAvailable(raylib)
 
 # Adding our source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/sources/*.c") # Define PROJECT_SOURCES as a list of all source files
-set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/sources/") # Define PROJECT_INCLUDE to be the path to the include directory of the project
+set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/src/") # Define PROJECT_INCLUDE to be the path to the include directory of the project
 
 # Declaring our executable
 add_executable(
   ${PROJECT_NAME}
-  main.cpp
-  game.cpp
-  game.h
-  utils.cpp
-  utils.h
-  entity.cpp
-  entity.h
-  asset_manager.cpp
-  asset_manager.h
-  animation.cpp
-  animation.h
-  map.cpp
-  map.h
-  globals.h
-  assets.h
-  player.cpp
-  player.h
-  zombie.cpp
-  zombie.h
-  bullet.cpp
-  bullet.h
-  entity_manager.cpp
-  entity_manager.h
-  entity_display.cpp
-  entity_display.h
+  src/main.cpp
+  src/game.cpp
+  src/game.h
+  src/utils.cpp
+  src/utils.h
+  src/entities/entity.cpp
+  src/entities/entity.h
+  src/assets/asset_manager.cpp
+  src/assets/asset_manager.h
+  src/assets/animation.cpp
+  src/assets/animation.h
+  src/map.cpp
+  src/map.h
+  src/globals.h
+  src/assets/assets.h
+  src/entities/player.cpp
+  src/entities/player.h
+  src/entities/zombie.cpp
+  src/entities/zombie.h
+  src/entities/bullet.cpp
+  src/entities/bullet.h
+  src/entities/entity_manager.cpp
+  src/entities/entity_manager.h
+  src/entities/entity_display.cpp
+  src/entities/entity_display.h
 )
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})

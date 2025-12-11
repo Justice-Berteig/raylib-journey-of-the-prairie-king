@@ -11,7 +11,7 @@
 
 #include "raylib.h"
 
-#include "asset_manager.h"
+#include "assets/asset_manager.h"
 #include "globals.h"
 
 

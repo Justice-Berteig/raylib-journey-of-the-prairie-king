@@ -1,6 +1,6 @@
 #include "zombie.h"
 
-#include "assets.h"
+#include "assets/assets.h"
 #include "globals.h"
 
 

@@ -6,8 +6,8 @@
 
 #include <memory>
 
-#include "animation.h"
-#include "asset_manager.h"
+#include "assets/animation.h"
+#include "assets/asset_manager.h"
 
 
 class EntityDisplay {
