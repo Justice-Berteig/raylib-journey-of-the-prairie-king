@@ -6,24 +6,20 @@
 #include "utils.h"
 
 
-Animation::Animation(const char *spriteSheetPath)
+Animation::Animation(
+  const char *spriteSheetPath,
+  const bool shouldLoop
+)
 : m_SPRITE_SHEET_PATH(spriteSheetPath)
+, m_shouldLoop(shouldLoop)
 {
+  // TODO: Move to init list
   m_frameWidth  = Globals::TILE_WIDTH;
   m_frameHeight = Globals::TILE_HEIGHT;
   m_cols        = 4;
   m_rows        = 1;
   m_totalFrames = m_cols * m_rows;
 
-  m_currentFrame    = 0;
-  m_lastFrameTimeMS = getCurrentTimeMS();
-}
-
-
-/*
- * Reset the animation so it can start again.
- */
-void Animation::restart() {
   m_currentFrame    = 0;
   m_lastFrameTimeMS = getCurrentTimeMS();
 }
@@ -43,6 +39,9 @@ void Animation::drawCurrentFrameAt(
   // Update the index of the current frame
   m_updateCurrentFrame();
 
+  // If the animation is done return without drawing anything
+  if(m_isFinished) return;
+  
   // Get data required to draw the texture
   float w { static_cast<float>(m_frameWidth) };
   float h { static_cast<float>(m_frameHeight) };
@@ -51,6 +50,21 @@ void Animation::drawCurrentFrameAt(
 
   // Draw the current frame
   DrawTexturePro(spriteSheet, spriteRect, pos, (Vector2) {0, 0}, 0, WHITE);
+}
+
+
+bool Animation::isFinished() const {
+  return m_isFinished;
+}
+
+
+/*
+ * Reset the animation so it can start again.
+ */
+void Animation::restart() {
+  m_currentFrame    = 0;
+  m_lastFrameTimeMS = getCurrentTimeMS();
+  m_isFinished      = false;
 }
 
 
@@ -82,13 +96,19 @@ void Animation::m_updateCurrentFrame() {
   const double currTimeMS { getCurrentTimeMS() };
   const double timeDiffMS { currTimeMS - m_lastFrameTimeMS };
 
-  // Update current frame index based on time difference
   if (timeDiffMS >= s_timeBetweenFramesMS) {
+    // If enough time has passed that the animation frame should change
+    // Update current frame index based on time difference
     uint8_t frameDiff {
       static_cast<uint8_t>(
         timeDiffMS / s_timeBetweenFramesMS
       )
     };
+
+    if(!m_shouldLoop && (m_currentFrame + frameDiff) >= (m_totalFrames)) {
+      m_isFinished = true;
+    }
+
     m_currentFrame = (m_currentFrame + frameDiff) % m_totalFrames;
 
     // Update the last frame time

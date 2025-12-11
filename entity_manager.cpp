@@ -75,11 +75,12 @@ void EntityManager::tick(const std::unique_ptr<Map>& map) {
     const std::unique_ptr<Entity>& e { m_entities[i] };
     const int8_t indexOfSelf = i;
 
-    if(e->isAlive) {
+    if(!e->getIsDying()) {
       e->tick(m_entities, *map, m_indexOfPlayer, indexOfSelf);
     }else if(indexOfSelf == m_indexOfPlayer) {
+      // TODO: Why is this here? Get rid of it!
       m_isPlayerAlive = false;
-    }else {
+    }else if(e->isReadyToDie()) {
       m_removeEntityByIndex(indexOfSelf);
     }
   }

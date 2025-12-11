@@ -45,9 +45,9 @@ EntityType Player::getType() const {
  */
 void Player::tick(
   std::vector<std::unique_ptr<Entity>>& entities,
-  const Map& map,
-  const int8_t indexOfPlayer,
-  const int8_t indexOfSelf
+  const Map&                            map,
+  const int8_t                          indexOfPlayer,
+  const int8_t                          indexOfSelf
 ) {
   int8_t dirX { 0 };
   int8_t dirY { 0 };

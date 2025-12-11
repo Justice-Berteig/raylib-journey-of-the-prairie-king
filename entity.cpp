@@ -8,13 +8,17 @@ Entity::Entity(
   const int16_t    x,
   const int16_t    y,
   const char       *idleSpritePath,
-  const char       *walkSheetPath
+  const char       *walkSheetPath,
+  const char       *deathSheetPath
 )
 : m_health(startingHealth)
 , m_x(x)
 , m_y(y)
-, m_isMoving(false)
-, m_display(idleSpritePath, walkSheetPath)
+, m_display(
+    idleSpritePath,
+    walkSheetPath,
+    deathSheetPath
+  )
 {}
 
 
@@ -24,7 +28,10 @@ Entity::Entity(
  */
 void Entity::damage(int8_t amount) {
   m_health -= amount;
-  if(m_health <= 0) isAlive = false;
+  if(m_health <= 0) {
+    m_isDying = true;
+    m_display.startDeathAnim();
+  }
 }
 
 
@@ -34,10 +41,16 @@ void Entity::damage(int8_t amount) {
 void Entity::draw(const std::unique_ptr<AssetManager>& assetManager) const {
   m_display.draw(
     assetManager,
+    m_isDying,
     m_isMoving,
     getX(),
     getY()
   );
+}
+
+
+bool Entity::getIsDying() const {
+  return m_isDying;
 }
 
 
@@ -65,6 +78,20 @@ bool Entity::isCollidingWith(const Rectangle& otherRect) const {
   if(a.y + a.height - 1 < b.y || a.y > b.y + b.height - 1) isOverlappingOnY = false;
 
   return isOverlappingOnX && isOverlappingOnY;
+}
+
+
+/*
+ * Check if the entity is ready to be removed from the game.
+ */
+bool Entity::isReadyToDie() const {
+  if(m_isDying && m_display.isReadyToDie(m_isDying)) return true;
+  return false;
+}
+
+
+void Entity::setIsDying(const bool isDying) {
+  m_isDying = isDying;
 }
 
 
@@ -133,7 +160,7 @@ void Entity::m_moveAndCollide(
 
   // Check collisions again
   if(!m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
-  else if(getType() == EntityType::BULLET) isAlive = false;
+  else if(getType() == EntityType::BULLET) m_isDying = true;
   else {
     // If the entity collided with something and is not a bullet
     m_x = initialX;
@@ -167,7 +194,7 @@ void Entity::m_moveAndCollide(
     || m_x > (Globals::MAP_WIDTH  - 1) * Globals::TILE_WIDTH
     || m_y > (Globals::MAP_HEIGHT - 1) * Globals::TILE_HEIGHT
   ) {
-    isAlive = false;
+    m_isDying = true;
   }
 }
 
@@ -192,7 +219,7 @@ bool Entity::m_isIntersecting(
     if(i == indexOfSelf || i == indexOfPlayer) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    if(e->isCollidingWith(selfCollisionShape)) {
+    if(!e->getIsDying() && e->isCollidingWith(selfCollisionShape)) {
       if(
         getType() == EntityType::BULLET
         && e->getType() == EntityType::ZOMBIE

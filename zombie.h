@@ -25,9 +25,9 @@ class Zombie: public Entity {
     EntityType getType() const;
     void       tick(
       std::vector<std::unique_ptr<Entity>>& entities,
-      const Map& map,
-      const int8_t indexOfPlayer,
-      const int8_t indexOfSelf
+      const Map&                            map,
+      const int8_t                          indexOfPlayer,
+      const int8_t                          indexOfSelf
     );
 
   private:

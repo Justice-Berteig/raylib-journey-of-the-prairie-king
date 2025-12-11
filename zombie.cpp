@@ -13,7 +13,8 @@ Zombie::Zombie(
   x,
   y,
   Assets::ZOMBIE_IDLE,
-  Assets::ZOMBIE_WALK
+  Assets::ZOMBIE_WALK,
+  Assets::ZOMBIE_DEATH
 ) {
   setSpeed(0.5f);
 }
@@ -42,9 +43,9 @@ EntityType Zombie::getType() const {
  */
 void Zombie::tick(
   std::vector<std::unique_ptr<Entity>>& entities,
-  const Map& map,
-  const int8_t indexOfPlayer,
-  const int8_t indexOfSelf
+  const Map&                            map,
+  const int8_t                          indexOfPlayer,
+  const int8_t                          indexOfSelf
 ) {
   const std::unique_ptr<Entity>& player { entities[indexOfPlayer] };
   const float diffX { getX() - player->getX() };

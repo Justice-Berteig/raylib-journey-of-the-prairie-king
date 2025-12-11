@@ -14,13 +14,17 @@
 
 class Animation {
   public:
-    Animation(const char *spriteSheetPath);
+    Animation(
+      const char *spriteSheetPath,
+      const bool shouldLoop = true
+    );
 
     void drawCurrentFrameAt(
       float x,
       float y,
       const std::unique_ptr<AssetManager>& assetManager
     );
+    bool isFinished() const;
     void restart();
 
   private:
@@ -29,6 +33,8 @@ class Animation {
 
     const char *m_SPRITE_SHEET_PATH;
 
+    bool    m_isFinished { false };
+    bool    m_shouldLoop;
     uint8_t m_cols;
     uint8_t m_rows;
     uint8_t m_frameWidth;

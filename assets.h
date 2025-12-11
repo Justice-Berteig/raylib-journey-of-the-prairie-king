@@ -12,8 +12,9 @@ namespace Assets {
   inline constexpr const char *PLAYER_WALK {"../resources/player_walk.png"};
 
   // Define paths for enemy textures
-  inline constexpr const char *ZOMBIE_IDLE {"../resources/zombie_idle.png"};
-  inline constexpr const char *ZOMBIE_WALK {"../resources/zombie_walk.png"};
+  inline constexpr const char *ZOMBIE_IDLE  {"../resources/zombie_idle.png"};
+  inline constexpr const char *ZOMBIE_WALK  {"../resources/zombie_walk.png"};
+  inline constexpr const char *ZOMBIE_DEATH {"../resources/zombie_death.png"};
 
   // Define paths for bullet textures
   inline constexpr const char *BULLET {"../resources/bullet.png"};
