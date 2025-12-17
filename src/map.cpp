@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <utility>
+#include <iostream>
 
 #include "assets/assets.h"
 #include "utils.h"
@@ -110,12 +112,14 @@ bool Map::isCollidingWith(const Rectangle& rect) const {
  * Generate the map.
  */
 void Map::m_generate() {
-  // Initialize random number generator
-  srand(time(0));
+  // Initialize vector to store tile indeces for tiles that can have an obstacle
+  std::vector<std::pair<int8_t, int8_t>> potentialObstacleTiles;
+  potentialObstacleTiles.reserve(Globals::MAP_WIDTH * Globals::MAP_HEIGHT);
 
-  // Loop for each tile in the map
+  // First pass to add walls/floors
   for(int8_t x = 0; x < Globals::MAP_WIDTH; ++x) {
     for(int8_t y = 0; y < Globals::MAP_HEIGHT; ++y) {
+      // For each tile in the map
 
       if(
         x == 0
@@ -124,33 +128,49 @@ void Map::m_generate() {
         || y == (Globals::MAP_HEIGHT - 1)
       ) {
         // If this tile is right on the edge of the map
+        // make it a wall
         m_tiles[x][y] = TileType::WALL;
-      } else if(
-           x == 1
-        || y == 1
-        || x == (Globals::MAP_WIDTH - 2)
-        || y == (Globals::MAP_HEIGHT - 2)
-	|| (
-	     x >= (Globals::MAP_WIDTH / 2) - 1
-	  && x <= (Globals::MAP_WIDTH / 2) + 1
-	  && y >= (Globals::MAP_HEIGHT / 2) - 1
-	  && y <= (Globals::MAP_HEIGHT / 2) + 1
-	)
-      ) {
-        // If this tile is just before the edge of the map
-	// or if the tile is in the center of the map
+      } else {
+        // Otherwise
+        // make it a floor
         m_tiles[x][y] = TileType::FLOOR;
-      }else {
-        // If this tile is somewhere in the middle of the map
-        // 8% of the tiles should be bushes
-        int randomNum { rand() % 101 };
-        if(randomNum < 92) {
-          m_tiles[x][y] = TileType::FLOOR;
-        }else {
-          m_tiles[x][y] = TileType::OBSTACLE;
+
+        // Check if tile could be an obstacle
+        if(
+          x != 1
+          && y != 1
+          && x != (Globals::MAP_WIDTH - 2)
+          && y != (Globals::MAP_HEIGHT - 2)
+          && (
+            x < (Globals::MAP_WIDTH / 2) - 1
+            || x > (Globals::MAP_WIDTH / 2) + 1
+            || y < (Globals::MAP_HEIGHT / 2) - 1
+            || y > (Globals::MAP_HEIGHT / 2) + 1
+          )
+        ) {
+          // If this tile could be an obstacle
+          // add its indeces to the list of potential obstacle tiles
+          potentialObstacleTiles.push_back({x, y});
         }
       }
-
     }
+  }
+
+  // Second pass to add obstacles
+  // Initialize random number generator
+  srand(time(0));
+  const int8_t numObstacles { 6 };
+  for(int8_t i = 0; i < numObstacles; ++i) {
+    // Get a random potential obstacle tile
+    const int8_t obstacleTileIndex {
+      static_cast<int8_t>(rand() % potentialObstacleTiles.size())
+    };
+    const auto obstacleTile { potentialObstacleTiles.at(obstacleTileIndex) };
+    // make it an obstacle
+    m_tiles[obstacleTile.first][obstacleTile.second] = TileType::OBSTACLE;
+    // remove it from the list of potential obstacle tiles
+    potentialObstacleTiles.erase(
+      potentialObstacleTiles.begin() + obstacleTileIndex
+    );
   }
 }
