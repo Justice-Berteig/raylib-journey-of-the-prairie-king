@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <utility>
-#include <iostream>
 
 #include "assets/assets.h"
 #include "utils.h"
@@ -166,8 +165,10 @@ void Map::m_generate() {
       static_cast<int8_t>(rand() % potentialObstacleTiles.size())
     };
     const auto obstacleTile { potentialObstacleTiles.at(obstacleTileIndex) };
+
     // make it an obstacle
     m_tiles[obstacleTile.first][obstacleTile.second] = TileType::OBSTACLE;
+
     // remove it from the list of potential obstacle tiles
     potentialObstacleTiles.erase(
       potentialObstacleTiles.begin() + obstacleTileIndex
