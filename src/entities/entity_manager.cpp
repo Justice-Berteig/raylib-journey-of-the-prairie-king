@@ -4,7 +4,6 @@
 #include <ctime>
 #include <iostream>
 
-#include "assets/assets.h"
 #include "globals.h"
 #include "player.h"
 #include "zombie.h"

@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <string>
-
 namespace Assets {
   // Define paths for player textures
   inline constexpr const char *PLAYER_IDLE {"../resources/player_idle.png"};

@@ -1,15 +1,13 @@
 #include "entity.h"
 
-#include "utils.h"
-
 
 Entity::Entity(
-  const int8_t     startingHealth,
-  const int16_t    x,
-  const int16_t    y,
-  const char       *idleSpritePath,
-  const char       *walkSheetPath,
-  const char       *deathSheetPath
+  const int8_t  startingHealth,
+  const int16_t x,
+  const int16_t y,
+  const char    *idleSpritePath,
+  const char    *walkSheetPath,
+  const char    *deathSheetPath
 )
 : m_health(startingHealth)
 , m_x(x)

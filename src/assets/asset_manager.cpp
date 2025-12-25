@@ -1,6 +1,5 @@
 #include "asset_manager.h"
 
-#include <cstring>
 #include <iostream>
 
 
