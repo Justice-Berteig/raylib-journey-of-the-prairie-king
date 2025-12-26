@@ -25,6 +25,8 @@ enum class EntityType {
 
 class Entity {
   public:
+    virtual ~Entity() = default;
+
     void  damage(int8_t amount);
     void  draw(const std::unique_ptr<AssetManager>& assetManager) const;
     bool  getIsDying() const;
