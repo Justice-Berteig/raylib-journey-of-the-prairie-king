@@ -24,6 +24,7 @@ class Zombie: public Entity {
     Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(
+      const double                          deltaTime,
       std::vector<std::unique_ptr<Entity>>& entities,
       const Map&                            map,
       const int8_t                          indexOfPlayer,

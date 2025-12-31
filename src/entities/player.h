@@ -15,7 +15,7 @@
 
 
 class Player: public Entity {
-  public:    
+  public:
     Player(
       const int16_t x,
       const int16_t y
@@ -24,6 +24,7 @@ class Player: public Entity {
     Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(
+      const double                          deltaTime,
       std::vector<std::unique_ptr<Entity>>& entities,
       const Map&                            map,
       const int8_t                          indexOfPlayer,
@@ -31,11 +32,12 @@ class Player: public Entity {
     );
 
   private:
-    static constexpr int8_t s_maxShootingCooldownFrames { 28 };
+    // Since deltaTime is ~1 at 60 FPS a cooldown of 60 = 1 second
+    static constexpr float  s_MAX_SHOOTING_COOLDOWN { 28.0f };
     static constexpr int8_t s_topMargin    { 6 };
     static constexpr int8_t s_bottomMargin { 0 };
     static constexpr int8_t s_leftMargin   { 2 };
     static constexpr int8_t s_rightMargin  { 2 };
-    
-    int8_t m_shootingCooldownFrames;
+
+    float m_shootingCooldown;
 };

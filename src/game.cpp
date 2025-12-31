@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "utils.h"
+
 
 /*
  * Constructor initializes the window + any needed objects
@@ -9,9 +11,10 @@
 Game::Game()
 : m_assetManager(std::make_unique<AssetManager>())
 , m_entityManager()
+, m_prevFrameTime(getCurrentTimeMS())
 {
   std::cout << "[Game]: created.\n";
-  
+
   InitWindow(
     s_RENDER_TEXTURE_WIDTH  * s_RENDER_TEXTURE_SCALE,
     s_RENDER_TEXTURE_HEIGHT * s_RENDER_TEXTURE_SCALE,
@@ -24,7 +27,7 @@ Game::Game()
   );
   SetTextureFilter(m_target.texture, TEXTURE_FILTER_POINT);
 
-  SetTargetFPS(60);
+  SetWindowState(FLAG_VSYNC_HINT);
 
   m_init();
 }
@@ -128,8 +131,15 @@ void Game::m_restart() {
  * Process game tick for entities and bullets.
  */
 void Game::m_tick() {
-  m_entityManager.tick(m_map);
+  // Get time since last frame and update previous frame time
+  const double currentTime = getCurrentTimeMS();
+  const double deltaTime = (currentTime - m_prevFrameTime) / 16.66667f;
+  m_prevFrameTime = currentTime;
 
+  // Do frame tick for entities
+  m_entityManager.tick(deltaTime, m_map);
+
+  // TODO: Send restart as callback to entity manager
   if(!m_entityManager.isPlayerAlive()) {
     m_restart();
   }

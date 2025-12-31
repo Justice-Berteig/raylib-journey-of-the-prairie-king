@@ -45,12 +45,14 @@ EntityType Bullet::getType() const {
 
 
 void Bullet::tick(
+  const double                          deltaTime,
   std::vector<std::unique_ptr<Entity>>& entities,
   const Map&                            map,
   const int8_t                          indexOfPlayer,
   const int8_t                          indexOfSelf
 ) {
   m_moveAndCollide(
+    deltaTime,
     m_xDir,
     m_yDir,
     entities,

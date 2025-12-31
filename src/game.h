@@ -32,6 +32,7 @@ class Game {
     std::unique_ptr<AssetManager> m_assetManager;
     EntityManager                 m_entityManager;
     std::unique_ptr<Map>          m_map;
+    double                        m_prevFrameTime;
     RenderTexture2D               m_target;
 
     void m_cleanup();

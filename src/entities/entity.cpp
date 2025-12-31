@@ -70,10 +70,16 @@ bool Entity::isCollidingWith(const Rectangle& otherRect) const {
   const Rectangle b { otherRect };
 
   bool isOverlappingOnX { true };
-  if(a.x + a.width - 1 < b.x || a.x > b.x + b.width - 1) isOverlappingOnX = false;
+  if(
+       a.x + a.width - 1 < b.x
+    || a.x > b.x + b.width - 1
+  ) isOverlappingOnX = false;
 
   bool isOverlappingOnY { true };
-  if(a.y + a.height - 1 < b.y || a.y > b.y + b.height - 1) isOverlappingOnY = false;
+  if(
+       a.y + a.height - 1 < b.y
+    || a.y > b.y + b.height - 1
+  ) isOverlappingOnY = false;
 
   return isOverlappingOnX && isOverlappingOnY;
 }
@@ -104,12 +110,13 @@ void Entity::setSpeed(const float newSpeed) {
  * Check for collisions with the map and other entities.
  */
 void Entity::m_moveAndCollide(
-  const int8_t xDir,
-  const int8_t yDir,
+  const double                                deltaTime,
+  const int8_t                                xDir,
+  const int8_t                                yDir,
   const std::vector<std::unique_ptr<Entity>>& entities,
-  const Map& map,
-  const int8_t indexOfPlayer,
-  const int8_t indexOfSelf
+  const Map&                                  map,
+  const int8_t                                indexOfPlayer,
+  const int8_t                                indexOfSelf
 ) {
   // Compare with previous direction and reset excess movement if different
   if(xDir != m_prevDirX || yDir != m_prevDirY) {
@@ -135,9 +142,11 @@ void Entity::m_moveAndCollide(
   int16_t initialX { m_x };
   int16_t initialY { m_y };
   float   speed    {
-    (xDir != 0 && yDir != 0)
-    ? m_diagonalMoveSpeed
-    : m_moveSpeed
+    (
+     (xDir != 0 && yDir != 0)
+      ? m_diagonalMoveSpeed
+      : m_moveSpeed
+    ) * (float)deltaTime
   };
  
   // Get the amount the entity is supposed to move
@@ -187,7 +196,7 @@ void Entity::m_moveAndCollide(
 
   // Destroy the entity if it is off screen
   if(
-    m_x    < 0 - Globals::TILE_WIDTH
+       m_x < 0 - Globals::TILE_WIDTH
     || m_y < 0 - Globals::TILE_HEIGHT
     || m_x > (Globals::MAP_WIDTH  - 1) * Globals::TILE_WIDTH
     || m_y > (Globals::MAP_HEIGHT - 1) * Globals::TILE_HEIGHT
@@ -202,9 +211,9 @@ void Entity::m_moveAndCollide(
  */
 bool Entity::m_isIntersecting(
   const std::vector<std::unique_ptr<Entity>>& entities,
-  const Map& map,
-  const int8_t indexOfPlayer,
-  const int8_t indexOfSelf
+  const Map&                                  map,
+  const int8_t                                indexOfPlayer,
+  const int8_t                                indexOfSelf
 ) const {
   const Rectangle selfCollisionShape { getCollisionShape() };
 

@@ -40,6 +40,7 @@ class Entity {
     virtual Rectangle  getCollisionShape() const = 0;
     virtual EntityType getType() const = 0;
     virtual void       tick(
+      const double                          deltaTime,
       std::vector<std::unique_ptr<Entity>>& entities,
       const Map&                            map,
       const int8_t                          indexOfPlayer,
@@ -60,6 +61,7 @@ class Entity {
     int16_t m_y;
 
     void m_moveAndCollide(
+      const double                                deltaTime,
       const int8_t                                dirX,
       const int8_t                                dirY,
       const std::vector<std::unique_ptr<Entity>>& entities,

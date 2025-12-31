@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <math.h>
 
 #include "globals.h"
 #include "player.h"
@@ -10,7 +11,9 @@
 
 
 EntityManager::EntityManager()
-: m_indexOfPlayer(0)
+: m_enemyRespawnCooldown(s_MAX_ENEMY_RESPAWN_COOLDOWN)
+, m_indexOfPlayer(0)
+, m_isPlayerAlive(false)
 , m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
 {
   srand(time(0));
@@ -67,15 +70,18 @@ bool EntityManager::isPlayerAlive() const {
 /*
  * Run the tick() method for every entity in the manager.
  */
-void EntityManager::tick(const std::unique_ptr<Map>& map) {
-  m_handleEnemyRespawning();
+void EntityManager::tick(
+  const double                deltaTime,
+  const std::unique_ptr<Map>& map
+) {
+  m_handleEnemyRespawning(deltaTime);
 
   for(int8_t i = 0; i < m_entities.size(); ++i) {
     const std::unique_ptr<Entity>& e { m_entities[i] };
     const int8_t indexOfSelf = i;
 
     if(!e->getIsDying()) {
-      e->tick(m_entities, *map, m_indexOfPlayer, indexOfSelf);
+      e->tick(deltaTime, m_entities, *map, m_indexOfPlayer, indexOfSelf);
     }else if(indexOfSelf == m_indexOfPlayer) {
       // TODO: Why is this here? Get rid of it!
       m_isPlayerAlive = false;
@@ -101,19 +107,29 @@ void EntityManager::m_addEntity(std::unique_ptr<Entity> newEntity) {
 /*
  * Decrement enemy respawn cooldown and spawn a new enemy if the cooldown is finished.
  */
-void EntityManager::m_handleEnemyRespawning() {
-  if(m_enemyRespawnCooldownFrames > 0) {
-    --m_enemyRespawnCooldownFrames;
-  }else {
-    // Spawn an enemy
-    // Choose a tile to spawn the enemy on
-    const Vector2 spawnPosition { m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()] };
-    m_addEntity(std::make_unique<Zombie>(
-      spawnPosition.x,
-      spawnPosition.y
-    ));
-    m_enemyRespawnCooldownFrames = 24 + (rand() % 64);
+void EntityManager::m_handleEnemyRespawning(const double deltaTime) {
+  // If respawning is still on cooldown reduce the cooldown and early return
+  if(m_enemyRespawnCooldown > 0) {
+    m_enemyRespawnCooldown -= (float)deltaTime;
+    return;
   }
+
+  // Spawn an enemy
+  // Choose a tile to spawn the enemy on
+  const Vector2 spawnPosition {
+    m_validEnemySpawnPositions[rand() % m_validEnemySpawnPositions.size()]
+  };
+  // Add the enemy at the chosen spawn position
+  m_addEntity(std::make_unique<Zombie>(
+    spawnPosition.x,
+    spawnPosition.y
+  ));
+
+  // Reset respawn cooldown
+  m_enemyRespawnCooldown = (
+    s_MIN_ENEMY_RESPAWN_COOLDOWN
+    + fmodf(rand(), s_MAX_ENEMY_RESPAWN_RAND_VAL)
+  );
 }
 
 

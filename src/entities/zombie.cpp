@@ -42,6 +42,7 @@ EntityType Zombie::getType() const {
  * Move towards player. Damage player if colliding with them.
  */
 void Zombie::tick(
+  const double                          deltaTime,
   std::vector<std::unique_ptr<Entity>>& entities,
   const Map&                            map,
   const int8_t                          indexOfPlayer,
@@ -59,6 +60,7 @@ void Zombie::tick(
   if(diffY > 0) dirY -= 1;
 
   m_moveAndCollide(
+    deltaTime,
     dirX,
     dirY,
     entities,
