@@ -3,3 +3,9 @@
 - [ ] Rework janky collision system
 - [ ] Add hit effect
 - [ ] Make map use asset manager for rendering so it doesn't need to store textures
+- [ ] Add spaces for enemies to spawn along the walls
+- [ ] Get enemies to spawn from specific places along the walls instead of inside the arena
+- [ ] Let a map finish after killing a set number of enemies
+- [ ] Add ability to go to new maps once finished with current map
+- [ ] Add UI
+- [ ] Add upgrades
