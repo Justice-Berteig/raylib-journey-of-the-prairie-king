@@ -37,6 +37,10 @@ class Entity {
     void  setIsDying(const bool isDying);
     void  setSpeed(const float newSpeed);
 
+    virtual void       collideWith(const Map& map) = 0;
+    virtual void       collideWith(
+      const std::unique_ptr<Entity>& other
+    ) = 0;
     virtual Rectangle  getCollisionShape() const = 0;
     virtual EntityType getType() const = 0;
     virtual void       tick(

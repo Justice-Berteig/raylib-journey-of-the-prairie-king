@@ -27,6 +27,27 @@ Bullet::Bullet(
 
 
 /*
+ * Define behaviour when colliding with the map.
+ * Should die when colliding with map.
+ */
+void Bullet::collideWith(const Map& map) {
+  setIsDying(true);
+}
+
+
+/*
+ * Define behaviour when colliding with another entity.
+ * Should damage enemies when colliding with them.
+ */
+void Bullet::collideWith(const std::unique_ptr<Entity>& other) {
+  if(other->getType() == EntityType::ZOMBIE) {
+    other->damage(1);
+    setIsDying(1);
+  }
+}
+
+
+/*
  * Get the rectangle used to check for collisions.
  */
 Rectangle Bullet::getCollisionShape() const {

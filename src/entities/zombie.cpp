@@ -21,6 +21,25 @@ Zombie::Zombie(
 
 
 /*
+ * Define behaviour when colliding with the map.
+ * Should do nothing special when colliding with map.
+ */
+void Zombie::collideWith(const Map& map) {
+  return;
+}
+
+
+/*
+ * Define behaviour when colliding with another entity.
+ * Should damage the player if colliding with them.
+ */
+void Zombie::collideWith(const std::unique_ptr<Entity>& other) {
+  if(other->getType() == EntityType::PLAYER)
+    other->damage(1);
+}
+
+
+/*
  * Get the rectangle used to check for collisions.
  */
 Rectangle Zombie::getCollisionShape() const {
@@ -68,6 +87,4 @@ void Zombie::tick(
     indexOfPlayer,
     indexOfSelf
   );
-
-  if(player->isCollidingWith(getCollisionShape())) player->damage(1);
 }

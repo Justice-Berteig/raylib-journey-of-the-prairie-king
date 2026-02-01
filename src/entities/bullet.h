@@ -23,6 +23,8 @@ class Bullet: public Entity {
       const int8_t  yDir
     );
 
+    void       collideWith(const Map& map);
+    void       collideWith(const std::unique_ptr<Entity>& other);
     Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(

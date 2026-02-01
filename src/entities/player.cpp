@@ -23,6 +23,24 @@ Player::Player(
 
 
 /*
+ * Define behaviour when colliding with the map.
+ * Should do nothing special when colliding with map.
+ */
+void Player::collideWith(const Map& map) {
+  return;
+}
+
+
+/*
+ * Define behaviour when colliding with another entity.
+ * Should do nothing special when colliding with another entity.
+ */
+void Player::collideWith(const std::unique_ptr<Entity>& other) {
+  return;
+}
+
+
+/*
  * Get the rectangle used to check for collisions.
  */
 Rectangle Player::getCollisionShape() const {

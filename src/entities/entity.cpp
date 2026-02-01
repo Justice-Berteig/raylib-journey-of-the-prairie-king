@@ -136,7 +136,6 @@ void Entity::m_moveAndCollide(
   m_isMoving = true;
 
   // Check if entity is currently colliding with something
-  // TODO: Destroy bullets if they start the frame colliding with something
   if(m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
 
   int16_t initialX { m_x };
@@ -215,22 +214,31 @@ bool Entity::m_isIntersecting(
   const int8_t                                indexOfPlayer,
   const int8_t                                indexOfSelf
 ) const {
-  const Rectangle selfCollisionShape { getCollisionShape() };
+  const std::unique_ptr<Entity>& self               { entities[indexOfSelf] };
+  const Rectangle                selfCollisionShape { getCollisionShape() };
 
   // Check for collisions with the map
-  if(map.isCollidingWith(selfCollisionShape)) return true;
+  if(map.isCollidingWith(selfCollisionShape)) {
+    self->collideWith(map);
+    return true;
+  }
 
   // Check for collisions with entities
-  // TODO: handling bullet damage here but it should really be somewhere else
   for(int8_t i = 0; i < entities.size(); ++i) {
-    if(i == indexOfSelf || i == indexOfPlayer) continue;
+    // Skip checking collision with self.
+    if(i == indexOfSelf) continue;
 
     const std::unique_ptr<Entity>& e { entities[i] };
-    if(!e->getIsDying() && e->isCollidingWith(selfCollisionShape)) {
-      if(
-        getType() == EntityType::BULLET
-        && e->getType() == EntityType::ZOMBIE
-      ) e->damage(1);
+    if(
+      !e->getIsDying()
+      && !(
+        self->getType() == EntityType::BULLET
+        && e->getType() == EntityType::PLAYER
+      )
+      && e->getType() != EntityType::BULLET
+      && e->isCollidingWith(selfCollisionShape)
+    ) {
+      self->collideWith(e);
       return true;
     }
   }

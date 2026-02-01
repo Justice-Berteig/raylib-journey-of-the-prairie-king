@@ -21,6 +21,8 @@ class Player: public Entity {
       const int16_t y
     );
 
+    void       collideWith(const Map& map);
+    void       collideWith(const std::unique_ptr<Entity>& other);
     Rectangle  getCollisionShape() const;
     EntityType getType() const;
     void       tick(
