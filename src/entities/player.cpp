@@ -23,6 +23,22 @@ Player::Player(
 
 
 /*
+ * Define whether the player can collide with the map or not.
+ */
+bool Player::canCollideWith(const Map& map) {
+  return true;
+}
+
+
+/*
+ * Define what other entities the player can collide with.
+ */
+bool Player::canCollideWith(const std::unique_ptr<Entity>& other) {
+  return (other->getType() == EntityType::ZOMBIE);
+}
+
+
+/*
  * Define behaviour when colliding with the map.
  * Should do nothing special when colliding with map.
  */

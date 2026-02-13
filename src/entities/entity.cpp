@@ -213,11 +213,13 @@ bool Entity::m_isIntersecting(
   const int8_t                                indexOfPlayer,
   const int8_t                                indexOfSelf
 ) const {
-  const std::unique_ptr<Entity>& self               { entities[indexOfSelf] };
-  const Rectangle                selfCollisionShape { getCollisionShape() };
+  const std::unique_ptr<Entity>& self { entities[indexOfSelf] };
 
   // Check for collisions with the map
-  if(map.isCollidingWith(selfCollisionShape)) {
+  if(
+    self->canCollideWith(map)
+    && map.isCollidingWith(self->getCollisionShape())
+  ) {
     self->collideWith(map);
     return true;
   }
@@ -227,17 +229,13 @@ bool Entity::m_isIntersecting(
     // Skip checking collision with self.
     if(i == indexOfSelf) continue;
 
-    const std::unique_ptr<Entity>& e { entities[i] };
+    const std::unique_ptr<Entity>& other { entities[i] };
     if(
-      !e->getIsDying()
-      && !(
-        self->getType() == EntityType::BULLET
-        && e->getType() == EntityType::PLAYER
-      )
-      && e->getType() != EntityType::BULLET
-      && e->isCollidingWith(selfCollisionShape)
+      !other->getIsDying()
+      && self->canCollideWith(other)
+      && self->isCollidingWith(other->getCollisionShape())
     ) {
-      self->collideWith(e);
+      self->collideWith(other);
       return true;
     }
   }

@@ -21,6 +21,8 @@ class Zombie: public Entity {
       const int16_t y
     );
 
+    bool       canCollideWith(const Map& map);
+    bool       canCollideWith(const std::unique_ptr<Entity>& other);
     void       collideWith(const Map& map);
     void       collideWith(const std::unique_ptr<Entity>& other);
     Rectangle  getCollisionShape() const;

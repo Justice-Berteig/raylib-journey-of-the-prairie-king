@@ -21,6 +21,25 @@ Zombie::Zombie(
 
 
 /*
+ * Define whether zombies can collide with the map.
+ */
+bool Zombie::canCollideWith(const Map& map) {
+  return true;
+}
+
+
+/*
+ * Define what other entities zombies can collide with.
+ */
+bool Zombie::canCollideWith(const std::unique_ptr<Entity>& other) {
+  return (
+    other->getType() == EntityType::ZOMBIE
+    || other->getType() == EntityType::PLAYER
+  );
+}
+
+
+/*
  * Define behaviour when colliding with the map.
  * Should do nothing special when colliding with map.
  */

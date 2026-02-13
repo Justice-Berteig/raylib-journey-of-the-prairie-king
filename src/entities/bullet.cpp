@@ -27,6 +27,22 @@ Bullet::Bullet(
 
 
 /*
+ * Define whether bullets can collide with the map.
+ */
+bool Bullet::canCollideWith(const Map& map) {
+  return true;
+}
+
+
+/*
+ * Define what other entities bullets can collide with.
+ */
+bool Bullet::canCollideWith(const std::unique_ptr<Entity>& other) {
+  return other->getType() == EntityType::ZOMBIE;
+}
+
+
+/*
  * Define behaviour when colliding with the map.
  * Should die when colliding with map.
  */
