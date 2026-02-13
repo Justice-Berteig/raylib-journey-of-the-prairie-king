@@ -166,7 +166,6 @@ void Entity::m_moveAndCollide(
 
   // Check collisions again
   if(!m_isIntersecting(entities, map, indexOfPlayer, indexOfSelf)) return;
-  else if(getType() == EntityType::BULLET) m_isDying = true;
   else {
     // If the entity collided with something and is not a bullet
     m_x = initialX;
