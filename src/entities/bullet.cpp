@@ -38,7 +38,7 @@ bool Bullet::canCollideWith(const Map& map) {
  * Define what other entities bullets can collide with.
  */
 bool Bullet::canCollideWith(const std::unique_ptr<Entity>& other) {
-  return other->getType() == EntityType::ZOMBIE;
+  return other->getType() == EntityType::zombie;
 }
 
 
@@ -56,7 +56,7 @@ void Bullet::collideWith(const Map& map) {
  * Should damage enemies when colliding with them.
  */
 void Bullet::collideWith(const std::unique_ptr<Entity>& other) {
-  if(other->getType() == EntityType::ZOMBIE) {
+  if(other->getType() == EntityType::zombie) {
     other->damage(1);
     setIsDying(1);
   }
@@ -77,7 +77,7 @@ Rectangle Bullet::getCollisionShape() const {
 
 
 EntityType Bullet::getType() const {
-  return EntityType::BULLET;
+  return EntityType::bullet;
 }
 
 

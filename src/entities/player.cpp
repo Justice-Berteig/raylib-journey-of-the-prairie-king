@@ -34,7 +34,7 @@ bool Player::canCollideWith(const Map& map) {
  * Define what other entities the player can collide with.
  */
 bool Player::canCollideWith(const std::unique_ptr<Entity>& other) {
-  return (other->getType() == EntityType::ZOMBIE);
+  return (other->getType() == EntityType::zombie);
 }
 
 
@@ -70,7 +70,7 @@ Rectangle Player::getCollisionShape() const {
 
 
 EntityType Player::getType() const {
-  return EntityType::PLAYER;
+  return EntityType::player;
 }
 
 

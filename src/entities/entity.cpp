@@ -172,8 +172,8 @@ void Entity::m_moveAndCollide(
     m_y = initialY;
     int16_t increment { 0 };
 
-    // Apply movement in only x direction, then move back in increments of 1 until
-    // the entity is no longer colliding with anything
+    // Apply movement in only x direction, then move back in increments of 1
+    // until the entity is no longer colliding with anything
     m_x += velX;
 
     if(velX > 0) increment = 1;

@@ -33,8 +33,8 @@ bool Zombie::canCollideWith(const Map& map) {
  */
 bool Zombie::canCollideWith(const std::unique_ptr<Entity>& other) {
   return (
-    other->getType() == EntityType::ZOMBIE
-    || other->getType() == EntityType::PLAYER
+    other->getType() == EntityType::zombie
+    || other->getType() == EntityType::player
   );
 }
 
@@ -53,7 +53,7 @@ void Zombie::collideWith(const Map& map) {
  * Should damage the player if colliding with them.
  */
 void Zombie::collideWith(const std::unique_ptr<Entity>& other) {
-  if(other->getType() == EntityType::PLAYER)
+  if(other->getType() == EntityType::player)
     other->damage(1);
 }
 
@@ -72,7 +72,7 @@ Rectangle Zombie::getCollisionShape() const {
 
 
 EntityType Zombie::getType() const {
-  return EntityType::ZOMBIE;
+  return EntityType::zombie;
 }
 
 
