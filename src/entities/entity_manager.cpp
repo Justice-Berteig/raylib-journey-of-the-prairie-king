@@ -14,7 +14,7 @@ EntityManager::EntityManager()
 : m_enemyRespawnCooldown(s_MAX_ENEMY_RESPAWN_COOLDOWN)
 , m_indexOfPlayer(0)
 , m_isPlayerAlive(false)
-, m_validEnemySpawnPositions(Globals::getValidEnemySpawnPositions())
+, m_validEnemySpawnPositions(Map::getValidEnemySpawnPositions())
 {
   srand(time(0));
   std::cout << "[EntityManager]: Created.\n";
