@@ -32,7 +32,7 @@ class Entity {
     bool  getIsDying() const;
     float getX() const;
     float getY() const;
-    bool  isCollidingWith(const Rectangle& otherRect) const;
+    bool  isIntersectingWith(const Rectangle& otherRect) const;
     bool  isReadyToDie() const;
     void  setIsDying(const bool isDying);
     void  setSpeed(const float newSpeed);

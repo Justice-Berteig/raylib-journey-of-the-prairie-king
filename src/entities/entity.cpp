@@ -65,7 +65,7 @@ float Entity::getY() const {
 /*
  * Check if this entity is colliding with another entity.
  */
-bool Entity::isCollidingWith(const Rectangle& otherRect) const {
+bool Entity::isIntersectingWith(const Rectangle& otherRect) const {
   const Rectangle a { getCollisionShape() };
   const Rectangle b { otherRect };
 
@@ -218,7 +218,7 @@ bool Entity::m_isIntersecting(
   // Check for collisions with the map
   if(
     self->canCollideWith(map)
-    && map.isCollidingWith(self->getCollisionShape())
+    && map.isIntersectingWith(self->getCollisionShape())
   ) {
     self->collideWith(map);
     return true;
@@ -233,7 +233,7 @@ bool Entity::m_isIntersecting(
     if(
       !other->getIsDying()
       && self->canCollideWith(other)
-      && self->isCollidingWith(other->getCollisionShape())
+      && self->isIntersectingWith(other->getCollisionShape())
     ) {
       self->collideWith(other);
       return true;

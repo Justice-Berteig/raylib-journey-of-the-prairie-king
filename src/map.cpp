@@ -66,7 +66,7 @@ void Map::draw() const {
 /*
  * Check if a given rectangle is colliding with any solid part of the map.
  */
-bool Map::isCollidingWith(const Rectangle& rect) const {
+bool Map::isIntersectingWith(const Rectangle& rect) const {
   // Get min and max tile indeces
   int8_t xMin {
     static_cast<int8_t>(

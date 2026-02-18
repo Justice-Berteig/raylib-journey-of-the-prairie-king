@@ -25,7 +25,7 @@ class Map {
     Map(std::unique_ptr<AssetManager>& assetManager);
 
     void draw() const;
-    bool isCollidingWith(const Rectangle& rect) const;
+    bool isIntersectingWith(const Rectangle& rect) const;
 
   private:
     Texture2D m_floorTexture;
