@@ -45,9 +45,9 @@ void Map::draw() const {
         )
       };
 
-      if(m_tiles[x][y] == TileType::WALL) {
+      if(m_tiles[x][y] == TileType::wall) {
         selectedTexture = &m_wallTexture;
-      }else if(m_tiles[x][y] == TileType::OBSTACLE) {
+      }else if(m_tiles[x][y] == TileType::obstacle) {
         selectedTexture = &m_obstacleTexture;
       }else {
         selectedTexture = &m_floorTexture;
@@ -98,7 +98,7 @@ bool Map::isIntersectingWith(const Rectangle& rect) const {
   // Check if any of the intersected tiles are solid
   for(int8_t x = xMin; x <= xMax; ++x) {
     for(int8_t y = yMin; y <= yMax; ++y) {
-      if(m_tiles[x][y] != TileType::FLOOR) {
+      if(m_tiles[x][y] != TileType::floor) {
         return true;
       }
     }
@@ -128,11 +128,11 @@ void Map::m_generate() {
       ) {
         // If this tile is right on the edge of the map
         // make it a wall
-        m_tiles[x][y] = TileType::WALL;
+        m_tiles[x][y] = TileType::wall;
       } else {
         // Otherwise
         // make it a floor
-        m_tiles[x][y] = TileType::FLOOR;
+        m_tiles[x][y] = TileType::floor;
 
         // Check if tile could be an obstacle
         if(
@@ -167,7 +167,7 @@ void Map::m_generate() {
     const auto obstacleTile { potentialObstacleTiles.at(obstacleTileIndex) };
 
     // make it an obstacle
-    m_tiles[obstacleTile.first][obstacleTile.second] = TileType::OBSTACLE;
+    m_tiles[obstacleTile.first][obstacleTile.second] = TileType::obstacle;
 
     // remove it from the list of potential obstacle tiles
     potentialObstacleTiles.erase(

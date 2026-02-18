@@ -14,9 +14,9 @@
 
 
 enum class TileType {
-  FLOOR,
-  OBSTACLE,
-  WALL
+  floor,
+  obstacle,
+  wall
 };
 
 
